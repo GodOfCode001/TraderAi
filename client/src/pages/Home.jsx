@@ -5,12 +5,7 @@ import Earn from '../HomeComponents/Earn'
 
 
 const Home = () => {
-//   const autoLogout = () => {
-//     const token = Cookies.get('access_token');
-//     console.log(token);
-// }
 
-// autoLogout();
   return (
     <>
       <Banner />
