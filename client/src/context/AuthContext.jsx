@@ -95,9 +95,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
 
-      console.log(currentUser)
-      console.log(socket)
-
       // let intervalId;
       if (currentUser && !socket) {
         const newSocket = io(`${backend}`);
@@ -108,7 +105,6 @@ export const AuthProvider = ({ children }) => {
       if (currentUser) {
           const intervalId = setInterval(() => {
           socket.emit('heartbeat', currentUser.users_id);
-          console.log("heartbeat sent")
         }, 10000)
         setHeartbeatInterval(intervalId);
       }
@@ -116,11 +112,9 @@ export const AuthProvider = ({ children }) => {
       return () => {
         if (heartbeatInterval) {
           clearInterval(heartbeatInterval);
-          console.log("heartbeat interval cleared")
         }
         if (socket) {
           socket.close();
-          console.log('Socket connection closed');
         }
       }
     }, [currentUser])
@@ -168,7 +162,6 @@ export const AuthProvider = ({ children }) => {
         return () => clearInterval(interval);
       }, [currentUser, heartbeatInterval, forceLogout]);
 
-      // console.log(remainingTime)
     
     return (
         <AuthContext.Provider value={{ currentUser, login, logout, changeLanguage, resetTimer }}>
