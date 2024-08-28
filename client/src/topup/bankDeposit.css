@@ -1,0 +1,279 @@
+.bold {
+    font-weight: bold;
+}
+
+.bank-deposit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bank-deposit-container {
+    width: 64%;
+    gap: 20px;
+    padding: 40px 0px;
+}
+
+.bank-deposit-container .bank-top {
+    display: flex;
+    gap: 36px;
+    margin-bottom: 40px;
+}
+
+.bank-deposit-container .bank-top .left {
+    background-color: var(--background-gray);
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 12px;
+}
+
+.bank-deposit-container .bank-top .left .left-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    height: 38px;
+    width: 160px;
+    font-weight: bold;
+    align-items: center;
+    /* font-size: 1.2rem; */
+}
+
+.bank-deposit-container .bank-top .left .img{
+    width: 310px;
+    height: 170px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.bank-deposit-container .bank-top .left .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bank-deposit-container .bank-top .left .bank {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 0px 0px; */
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+}
+.bank-deposit-container .bank-top .left .bank-number {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 0px 0px; */
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+}
+.bank-deposit-container .bank-top .left .bank-receiver {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 0px 0px; */
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border);
+}
+
+.bank-deposit-container .bank-top .right {
+    background-color: var(--background-gray);
+    flex: 2.5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+}
+
+.bank-deposit-container .bank-top .right .right-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    height: 38px;
+    font-weight: bold;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.bank-deposit-container .bank-top .right .right-header .slip-btn {
+    width: 94px;
+    height: 32px;
+    border-radius: 4px;
+    background-color: var(--green-btn);
+    color: var(--white);
+    border: 1px solid var(--green-btn);
+    cursor: pointer;
+
+}
+.bank-deposit-container .bank-top .right label {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--gray);
+}
+
+.bank-deposit-container .bank-top .right img {
+    position: absolute;
+    top: 0;
+    filter: grayscale(100%) brightness(70%) contrast(80%);
+
+}
+
+.bank-deposit-container .bank-top .right .your-transfered {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount{
+  position: relative;
+}
+
+
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount p{
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  height: 20px;
+}
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount input{
+  width: 420px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 8px;
+  text-align: right;
+  border: 1px solid var(--border);
+}
+
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount .withdraw{
+  width: 370px;
+  padding: 10px 60px 10px 10px;
+  border-radius: 8px;
+  text-align: right;
+  border: 1px solid var(--border);
+}
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount .usdt {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  height: 20px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+.bank-deposit-container .bank-top .right .your-transfered .transfer-amount input:focus{
+  outline: none;
+  border: 1px solid var(--green);
+}
+
+.bank-deposit-container .bank-top .right .your-transfered .transfer-total {
+  position: relative;
+  
+}
+.bank-deposit-container .bank-top .right .your-transfered .transfer-total .you-will-got{
+  position: absolute;
+  top: 8px;
+  left: 10px;
+}
+.bank-deposit-container .bank-top .right .your-transfered .transfer-total input{
+  width: 260px;
+  padding: 10px 60px 10px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--disable);
+  text-align: right;
+  background-color: var(--disable);
+}
+
+.bank-deposit-container .bank-top .right .your-transfered .transfer-total .usdt{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+
+/*  */
+
+.bank-deposit-container .deposit-details {
+    background-color: var(--background-gray);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+    height: 620px;
+}
+
+.bank-deposit-container .deposit-details .details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+.bank-deposit-container .deposit-details .details-header .right input{
+    margin-right: 12px;
+    color: var(--gray);
+}
+.deposit-container .deposit-details .details-header .right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tbody tr {
+    transition: all 0.2s ease-in;
+  }
+  
+  tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* display: flex; */
+  }
+  .coin {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  td .img {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+  }
+  td .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+  .table-status-green {
+    color: var(--green);
+  }
+  .table-status-red {
+    color: var(--red);
+  }
+  .table-status-yellow {
+    color: var(--yellow);
+  }

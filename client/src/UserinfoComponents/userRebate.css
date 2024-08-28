@@ -1,0 +1,124 @@
+.user-rebate {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
+}
+
+.user-rebate-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.user-rebate-container .top {
+    display: flex;
+    gap: 50px;
+}
+
+.user-rebate-container .top .left {
+    width: 24%;
+    padding: 30px 20px;
+    border-radius: 12px;
+    background-color: var(--background-light);
+}
+.user-rebate-container .top .left .left-header {
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.user-rebate-container .top .left .one,.two,.three,.total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.user-rebate-container .top .left .total {
+    font-weight: bold;
+}
+
+
+.user-rebate-container .top .right {
+    width: 76%;
+    border-radius: 12px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    background-color: var(--background-light);
+}
+.user-rebate-container .top .right .code {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    align-items: center;
+}
+.user-rebate-container .top .right .code .code-header {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+.user-rebate-container .top .right .code #invite-code {
+    width: 70%;
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    border: 1px solid var(--border);
+}
+.user-rebate-container .top .right .code .copy-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: 1px solid var(--background-dark);
+    cursor: pointer;
+}
+
+.user-rebate-container .top .right .link {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    align-items: center;
+}
+.user-rebate-container .top .right .link .link-header {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 6px 7px;
+    border-radius: 6px;
+}
+.user-rebate-container .top .right .link #invite-link {
+    width: 70%;
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    border: 1px solid var(--border);
+}
+.user-rebate-container .top .right .link .copy-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: 1px solid var(--background-dark);
+    cursor: pointer;
+}
+
+.user-rebate-container .bottom {
+    background-color: var(--background-light);
+    display: flex;
+    justify-content: space-between;
+    /* padding: 30px 20px; */
+}
+
+.user-rebate-container .bottom .boxes {
+    padding: 30px 20px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    /* font-weight: bold; */
+}

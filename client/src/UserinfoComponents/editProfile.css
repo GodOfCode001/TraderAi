@@ -1,0 +1,331 @@
+.edit-profile  {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-profile-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-profile-container .profile-header {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+
+.edit-profile-container .form-container {  
+    background-color: var(--background-light);
+    border-radius: 12px;
+    padding: 30px 16px;
+}
+.edit-profile-container .form-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: auto auto;  /* Two rows, height auto-adjusts based on content */
+    gap: 50px; /* Adjust as needed for spacing between items */
+    /* border-bottom: 1px solid var(--border);
+    padding-bottom: 40px; */
+}
+
+.edit-profile-container form .top-left {
+    grid-area: 1 / 1; /* Row 1, Column 1 */
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+
+.edit-profile-container form .top-left label {
+    margin-top: 20px;
+    color: var(--label);
+}
+
+.edit-profile-container form .top-left .gender{
+    margin-top: 36px;
+}
+
+.edit-profile-container form .top-left select {
+    /* padding: 6px;
+    border-radius: 6px; */
+    font-size: 16px;      /* Increases the text size */
+    padding: 6px;        /* Adds padding inside the dropdown */
+    /* width: 200px;         Adjusts the width of the select element */
+    /* height: 40px;         Adjusts the height of the select element */
+    border-radius: 5px;   /* Adds rounded corners */
+    border: 1px solid #ccc; /* Border styling */
+}
+.edit-profile-container form .top-left input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+.edit-profile-container form .top-right {
+    grid-area: 1 / 2; /* Row 1, Column 1 */
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+
+.edit-profile-container form .top-right label {
+    margin-top: 20px;
+    color: var(--label);
+}
+.edit-profile-container form .top-right input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+.edit-profile-container form .top-right .recommend {
+    color: var(--border);
+}
+
+.edit-profile-container form .bottom-left {
+    grid-area: 2 / 1; /* Row 1, Column 1 */
+    display: flex;
+    flex-direction: column;
+    /* padding: 20px 0px; */
+}
+
+.edit-profile-container form .bottom-left label {
+    margin-top: 20px;
+    color: var(--label);
+}
+.edit-profile-container form .bottom-left .select-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.edit-profile-container form .bottom-left .select-wrapper #month{
+    padding: 6px;
+    border-radius: 6px;
+    width: 50%;
+    border: 1px solid var(--border);
+}
+.edit-profile-container form .bottom-left .select-wrapper #day{
+    padding: 6px;
+    border-radius: 6px;
+    width: 25%;
+    border: 1px solid var(--border);
+}
+.edit-profile-container form .bottom-left .select-wrapper #year{
+    padding: 6px;
+    border-radius: 6px;
+    width: 25%;
+    border: 1px solid var(--border);
+}
+
+
+.edit-profile-container form .bottom-left input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.edit-profile-container form .top-left input:focus {
+    outline: none;
+    border: 1px solid var(--green-btn);
+}
+
+
+
+.edit-profile-container form .bottom-right {
+    grid-area: 2 / 2; /* Row 2, Column 2 */
+    margin-top: 28px;
+
+}
+
+.edit-profile-container form .bottom-right .save-btn{
+    background-color: var(--black);
+    padding: 12px;
+    color: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--black);
+    cursor: pointer;
+}
+
+.edit-profile-container .crypto-container {
+    background-color: var(--background-light);
+    border-radius: 12px;
+    padding: 30px 16px;
+}
+
+.edit-profile-container .crypto-container .crypto-header {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.edit-profile-container .crypto-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-rows: auto auto;  /* Two rows, height auto-adjusts based on content */
+    gap: 40px; /* Adjust as needed for spacing between items */
+    height: 200px;
+}
+
+.edit-profile-container .crypto-container form .crypto-div:nth-child(1) {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(1) label {
+
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(1) select {
+    padding: 6px;
+    border-radius: 6px;
+    width: 50%;
+    border: 1px solid var(--border);
+}
+
+.edit-profile-container .crypto-container form .crypto-div:nth-child(2) {
+    grid-area: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(2) input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(2) input:focus {
+    outline: none;
+    border: 1px solid var(--green-btn);
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(3) {
+    grid-area: 2 / 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(3) input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    width: 47%;
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(3) input:focus {
+    outline: none;
+    border: 1px solid var(--green-btn);
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(3) .recommend{
+    color: var(--border);
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(4) {
+    grid-area: 2 / 2;
+    /* display: flex;
+    justify-content: flex-end; */
+    padding: 20px 0px;
+}
+.edit-profile-container .crypto-container form .crypto-div:nth-child(4) .confirm-btn {
+    background-color: var(--black);
+    padding: 12px;
+    color: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--black);
+    cursor: pointer;
+}
+
+.edit-profile-container .bank-address {
+    background-color: var(--background-light);
+    border-radius: 12px;
+    padding: 30px 20px;
+}
+
+.edit-profile-container .bank-address .bank-header {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.edit-profile-container .bank-address form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 40px;
+}
+
+.edit-profile-container .bank-address form .bank-div:nth-child(1) {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-profile-container .bank-address form .bank-div:nth-child(1) select {
+    padding: 6px;
+    border-radius: 6px;
+    width: 100%; /* ทำให้ dropdown มีขนาดเท่ากับขอบเขตของ parent */
+    max-width: 100%; /* กำหนดความกว้างสูงสุด */
+    overflow: hidden; /* ซ่อนส่วนที่เกิน */
+    white-space: nowrap; /* ป้องกันการตัดคำ */
+    text-overflow: ellipsis; /* ทำให้ข้อความแสดงเป็น ... เมื่อยาวเกินไป */
+    /* color: red; */
+    outline: none;
+    border: 1px solid var(--border);
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(2) {
+    grid-area: 1 / 2;
+    display: flex;
+    flex-direction: column;
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(2) .label-div {
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 10px;
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(2) .label-div label{
+    width: 50%;
+}
+
+.edit-profile-container .bank-address form .bank-div:nth-child(2) .input-div {
+    display: flex;
+    gap: 10px;
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(2) .input-div input {
+    width: 50%;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(2) .input-div input:focus {
+    outline: none;
+    border: 1px solid var(--green-btn);
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(3)  {
+    grid-area: 2 / 1;
+    display: flex;
+    flex-direction: column;
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(3) .photo-confirm {
+    /* border: 1px solid var(--border); */
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--background-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.edit-profile-container .bank-address form .bank-div:nth-child(3) .photo-confirm img {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    /* position: absolute; */
+    filter: grayscale(100%) brightness(70%) contrast(80%);
+}
+
+.edit-profile-container .bank-address form .bank-div:nth-child(4) {
+    grid-area: 2 / 2;
+}
+.edit-profile-container .bank-address form .bank-div:nth-child(4) .confirm-btn {
+    margin-top: 18px;
+}

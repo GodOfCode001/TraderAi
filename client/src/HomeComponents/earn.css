@@ -1,0 +1,56 @@
+.earn {
+    padding: 120px 342px 120px 342px;
+    /* background-color: #F1F1F1; */
+}
+
+.earn-container {
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.earn-container h1 {
+    font-size: 4rem;
+}
+
+.earn-container p {
+    width: 400px;
+    text-align: center;
+}
+
+.earn-container .buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.earn-container button:nth-child(1) {
+    width: 120px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    color: var(--black);
+    background-color: var(--background-light);
+    transition: 0.2s all ease-in-out;
+}
+
+.earn-container button:nth-child(2) {
+    width: 120px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    color: var(--white);
+    background-color: var(--black);
+    transition: 0.2s all ease-in-out;
+}
+
+.earn-container button:nth-child(1):hover {
+    cursor: pointer;
+    color: var(--black);
+    background-color: var(--background-light);
+}
+.earn-container button:nth-child(2):hover {
+    cursor: pointer;
+    background-color: var(--background-dark);
+}

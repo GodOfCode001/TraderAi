@@ -1,0 +1,118 @@
+.register {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0px 40px 0px;   
+}
+
+.register-container {
+
+}
+
+.register-card {
+
+}
+
+.register-card fieldset {
+    width: 640px;
+    height: 640px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0px 40px 0px;
+}
+
+.register-card fieldset legend {
+    margin-left: 40px;
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 0px 10px 0px 10px;
+}
+
+.register-card fieldset .name {
+    width: 80%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    background-color: var(--gray);
+    font-size: 2rem;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.register-card fieldset .welcome {
+    width: 80%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    background-color: var(--gray);
+    font-size: 2rem;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.register-card fieldset form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+    align-items: center;
+}
+
+.register-card fieldset form label {
+    display: flex;
+    width: 80%;
+}
+.register-card fieldset form input {
+    width: 80%;
+    height: 36px;
+    border-radius: 8px;
+    padding-left: 10px;
+    border: 1px solid gray;
+    /* outline: none; */
+}
+.register-card fieldset form input:valid {
+    outline: none;
+    border: 1px solid var(--green);
+}
+
+.register-card fieldset form input:invalid:not(:focus):not(:placeholder-shown) {
+    outline: none;
+    border: 1px solid gray; /* สีปกติเมื่อยังไม่ได้แตะ */
+}
+
+.register-card fieldset form input:invalid:focus,
+.register-card fieldset form input:invalid:not(:placeholder-shown) {
+    outline: none;
+    border: 1px solid var(--red); /* เปลี่ยนเป็นสีแดงเมื่อไม่ถูกต้อง */
+}
+
+/* .register-card fieldset form input:focus {
+    outline: none;
+    border: 1px solid var(--green);
+} */
+
+.register-card fieldset form .login {
+    margin-top: 215px;
+}
+
+.register-card fieldset form button {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    width: 81.5%;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--black);
+    color: var(--white);
+    /* padding-left: 10px; */
+}
+
+.register-card fieldset form button:hover {
+    cursor: pointer;
+}
+
+.input-error {
+    border: 2px solid red;
+  }

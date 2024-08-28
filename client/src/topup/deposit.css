@@ -1,0 +1,339 @@
+.deposit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.deposit-container {
+    width: 64%;
+    /* display: flex; */
+    gap: 20px;
+    padding: 40px 0px;
+}
+
+.deposit-container .deposit-info {
+    display: flex;
+    gap: 36px;
+    margin-bottom: 40px;
+}
+
+.deposit-container .deposit-info .balance {
+    background-color: var(--background-gray);
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+}
+
+.deposit-container .deposit-info .balance .balance-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    height: 38px;
+    font-weight: bold;
+    align-items: center;
+    /* font-size: 1.2rem; */
+}
+
+.deposit-container .deposit-info .balance .balance-header .left {
+    font-size: 1.2rem;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.deposit-container .deposit-info .balance .balance-header .left .img {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.deposit-container .deposit-info .balance .balance-header .left .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.deposit-container .deposit-info .balance .balance-header .right {
+    color: var(--blue);
+    cursor: pointer;
+}
+
+.deposit-container .deposit-info .balance .balance-minimum  {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deposit-container .deposit-info .balance .balance-minimum .right {
+    font-weight: bold;
+}
+.deposit-container .deposit-info .balance .balance-now  {
+    display: flex;
+    justify-content: space-between;
+}
+.deposit-container .deposit-info .balance .balance-now .right {
+    font-weight: bold;
+}
+.deposit-container .deposit-info .balance .balance-freeze  {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deposit-container .deposit-info .balance .balance-freeze .right {
+    font-weight: bold;
+}
+.deposit-container .deposit-info .balance .contract-address  {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deposit-container .deposit-info .balance .contract-address .right {
+    font-weight: bold;
+}
+
+.deposit-container .deposit-info .balance .total-balance  {
+    display: flex;
+    justify-content: space-between;
+}
+
+.deposit-container .deposit-info .balance .total-balance .right {
+    font-weight: bold;
+}
+.deposit-container .deposit-info .balance .chain button {
+    width: 68px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+
+
+.deposit-container .deposit-info .deposit-address-details {
+    background-color: var(--background-gray);
+    flex: 2.5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+}
+
+.deposit-container .deposit-info .deposit-address-details .details-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    height: 38px;
+    font-weight: bold;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.deposit-container .deposit-info .deposit-address-details .details-all {
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+}
+
+.deposit-container .deposit-info .deposit-address-details .details-all .address-information {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deposit-container .deposit-info .deposit-address-details .details-all .address-information .copy{
+    width: 68px;
+    height: 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease-in;
+}
+
+.deposit-container .deposit-info .deposit-address-details .details-all .address-information .copy:hover {
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: 1px solid var(--background-dark);
+}
+
+.deposit-container .deposit-details {
+    background-color: var(--background-gray);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+    height: 620px;
+}
+
+.deposit-container .deposit-details .details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+.deposit-container .deposit-details .details-header .right input{
+    margin-right: 12px;
+    color: var(--gray);
+}
+.deposit-container .deposit-details .details-header .right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tbody tr {
+    transition: all 0.2s ease-in;
+  }
+  
+  tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* display: flex; */
+  }
+  .coin {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  td .img {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+  }
+  td .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+  .table-status-green {
+    color: var(--green);
+  }
+  .table-status-red {
+    color: var(--red);
+  }
+  .table-status-yellow {
+    color: var(--yellow);
+  }
+
+  .deposit-container .deposit-address-details .address-header  {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 38px;
+    font-weight: bold;
+    align-items: center;
+    font-size: 1.2rem;
+  }
+  .deposit-container .deposit-address-details .address-header .address-name {
+    position: absolute;
+    font-weight: normal;
+    font-size: 1rem;
+    left: 10px;
+  }
+  .deposit-container .deposit-address-details .address-header input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-align: right;
+}
+  .deposit-container .deposit-address-details .address-header input:focus {
+        outline: none;
+        border: 1px solid var(--green);
+}
+
+  .deposit-container .deposit-address-details .details-all {
+    
+}
+  .deposit-container .deposit-address-details .details-all .address-information {
+    /* position: relative; */
+}
+  .deposit-container .deposit-address-details .details-all .address-information .amount-input{
+    position: relative;
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-input .count {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-input input {
+    width: 420px;
+    /* height: 40px; */
+    padding: 10px 60px 10px 10px;
+    border-radius: 8px;
+    text-align: right;
+    border: 1px solid var(--border);
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-input input:focus {
+    outline: none;
+    border: 1px solid var(--green);
+}
+  .deposit-container .deposit-address-details .details-all .address-information .amount-input .all {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: var(--blue);
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-willgot {
+    
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-willgot {
+    width: 100%;
+    margin-left: 20px;
+    position: relative;
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-willgot input {
+    width: 202px;
+    padding: 10px 60px 10px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--disable);
+    text-align: right;
+    background-color: var(--disable);
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-willgot .name {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+  .deposit-container .deposit-address-details .details-all .address-information .amount-willgot .amount-name {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+
+

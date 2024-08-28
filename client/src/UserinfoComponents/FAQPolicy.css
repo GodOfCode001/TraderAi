@@ -1,0 +1,129 @@
+.FAQPolicy {
+    width: 100%;
+}
+
+.FAQPolicy-container {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-light);
+    border-radius: 12px;
+
+}
+
+.FAQPolicy-container .policy {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0px;
+
+    /* clip-path: polygon( 0 0 ,100% 10%, 100% 100%, 0% 90%); */
+}
+
+.FAQPolicy .FAQPolicy-container .policy .policy-us-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.FAQPolicy-container .policy .policy-us-container .choose-us-header {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.FAQPolicy-container .policy-us-container .choose-us-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 80px;
+}
+
+.FAQPolicy-container .policy-us-container .choose-us-body .card {
+    width: 180px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+}
+.FAQPolicy-container .policy-us-container .choose-us-body .card .card-header {
+    font-weight: bold;
+    width: 180px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;;
+}
+.FAQPolicy-container .policy-us-container .choose-us-body .card .card-body {
+    text-align: center;
+}
+
+
+.FAQPolicy-container .about-faq {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.FAQPolicy-container .about-faq-container {
+    width: 100%;
+
+}
+
+.FAQPolicy-container .about-faq-container .about-faq-header {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+.FAQPolicy-container .about-faq-container .about-faq-body {
+    padding: 40px 0px;
+    width: 100%;
+}
+
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination .card-com {
+    display: flex;
+    gap: 60px;
+}
+
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination .card-com .card {
+    width: 160px;
+    height: 300px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 26px;
+    border-radius: 14px;
+    position: relative;
+}
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination .card-com .card .faq-heading {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination .card-com .card .faq-body {
+    text-align: center;
+}
+
+.FAQPolicy-container .about-faq-container .about-faq-body .pegination .card-com .card .read-more {
+    background-color: var(--black);
+    color: var(--white);
+    width: 120px;
+    height: 36px;
+    border-radius: 8px;
+    position: absolute;
+    bottom: 28px;
+    cursor: pointer;
+}
+

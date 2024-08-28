@@ -1,0 +1,146 @@
+@keyframes nextPage {
+    0% {
+      opacity: 0;
+      transform: translate(10em, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+  
+  @keyframes prevPage {
+    0% {
+      opacity: 0;
+      transform: translate(-10em, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+  
+  .investment-rank-tier {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+  }
+  
+  .investment-rank-tier-container {
+      width: 100%;
+      background-color: var(--background-light);
+      border-radius: 12px;
+      height: max-content;
+  }
+  
+  .investment-rank-tier-container .top {
+      gap: 50px;
+      padding: 40px 0px 40px 0px;
+      /* margin: auto; */
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .investment-rank-tier-container .top .rank-title {
+      font-weight: bold;
+      font-size: 2rem;
+      margin-bottom: 50px;
+      text-align: center;
+  }
+  
+  .investment-rank-tier-container .top .rank-details {
+      display: flex;
+      gap: 20px;
+      width: 402px;
+  }
+  
+  .investment-rank-tier-container .top .pegination {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+      width: 608px;
+  }
+  
+  .pegination-button {
+      height: 45px;
+      width: 45px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+  }
+  
+  .investment-rank-tier-container .top .rank-details .card {
+      padding: 24px;
+      text-align: center;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      border-radius: 8px;
+      height: 110px;
+      width: 190;
+  }
+  
+  .investment-rank-tier-container .top .rank-details .card .card-title {
+      color: var(--yellow);
+      font-weight: bold;
+      font-size: 1.2rem;
+  }
+  
+  .investment-rank-tier-container .bottom {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      padding: 40px 0px;
+  }
+
+  .investment-rank-tier-container .bottom .height-card {
+    margin-top: 20px;
+    height: 340px;
+    width: 220px;
+  }
+
+  .investment-rank-tier-container .bottom .height-card .height-card-title {
+    width: 180px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    margin-bottom: 20px;
+  }
+
+  .investment-rank-tier-container .bottom .height-card .height-card-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    height: 40px;
+  }
+
+  .investment-rank-tier-container .bottom .height-card .height-card-body .tier-name {
+    text-transform: uppercase;
+    background-color: var(--black);
+    color: var(--white);
+    width: 130px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+  }
+
+  .investment-rank-tier-container .bottom .height-card .height-card-body .last {
+    text-transform: uppercase;
+    background-color: var(--black);
+    color: rgb(0, 196, 0);
+    width: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+  }
+

@@ -1,0 +1,78 @@
+.user-sidebar {
+    
+}
+
+.user-sidebar .humburger {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    /* position: absolute; */
+    left: 10px;
+    top: 10px;
+    z-index: 1 000;
+}
+
+.humburger.active {
+    left: 290px; /* Sidebar width (280px) + 10px */
+}
+
+.user-sidebar .humburger:hover {
+    cursor: pointer;
+}
+
+.user-sidebar-container {
+    width: 280px;
+    height: max-content;
+    gap: 36px;
+    transition: all 0.3s ease;
+    transform: translateX(0);
+}
+
+.user-sidebar-container.closed {
+    width: 0;
+    transform: translateX(-280px);
+}
+
+.user-sidebar-container .tier-logo {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    overflow: hidden;
+}
+
+.user-sidebar-container .user-info {
+    background-color: var(--background-light);
+    margin: 10px 0px;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.user-sidebar-container .user-info .edit-profile-btn {
+    background-color: var(--black);
+    color: var(--white);
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.user-sidebar-container .pages-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 20px 20px 20px;
+}
+
+.user-sidebar-container .pages-buttons .link-button {
+    height: 36px;
+    background-color: var(--background-gray);
+    border: 1px solid var(--background-gray);
+    border-radius: 12px;
+    cursor: pointer;
+}

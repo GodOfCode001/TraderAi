@@ -1,0 +1,179 @@
+.usermain {
+    width: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    left: 0;
+}
+
+.usermain.open {
+    width: 80%;
+}
+
+.usermain-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.usermain-container .profit-loss {
+    width: 100%;
+    background-color: var(--black);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 510px;
+}
+
+.usermain-container .profit-loss .top {
+    width: 200px;
+    height: 200px;
+    /* padding: 10px 0px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid var(--green);
+    border-radius: 100%;
+    gap: 20px;
+}
+
+.usermain-container .profit-loss .top  .title {
+    font-weight: bold;
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.usermain-container .profit-loss .top  .profit-percentage {
+    font-weight: bold;
+    color: var(--green);
+    font-size: 2.5rem;
+}
+
+.usermain-container .profit-loss .bottom {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.usermain-container .profit-loss .bottom .title{
+    color: var(--green);
+}
+
+.usermain-container .profit-loss .bottom .body-profit-percentage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.usermain-container .profit-loss .bottom .body-profit-percentage p {
+    font-size: 2.2rem;
+    color: var(--green);
+    font-weight: bold;
+}
+
+.usermain-container .profit-loss .bottom .body-profit-percentage :nth-child(2) {
+    color: var(--red);
+}
+
+.usermain-container .balance {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    border-radius: 12px;
+    background-color: var(--background-gray);
+}
+
+.usermain-container .balance .left {
+    
+}
+
+.usermain-container .balance .left .balance-name {
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.usermain-container .balance .right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.usermain-container .balance .right .deposit-btn {
+    width: 140px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: var(--black);
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+}
+
+.usermain-container .usermain-blog {
+    display: flex;
+    gap: 50px;
+}
+
+.usermain-container .usermain-blog .card {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 0px;
+}
+
+.usermain-container .usermain-blog .card .card-header { 
+    height: 3em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+    max-height: 3em;
+    font-weight: bold;
+}
+
+
+.usermain-container .usermain-blog .card .card-img{
+    width: 260px;
+    height: 360px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.usermain-container .usermain-blog .card .card-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.usermain-container .usermain-blog .card .card-details {
+    height: 6em; /* Adjust height based on line-height (1.5em * 4 lines) */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    line-height: 1.5em; /* Set your line height (e.g., 1.5em) */
+    max-height: 6em; /* This should match line-height * 4 */
+}
+
+.usermain-container .usermain-blog .card .read-more {
+    color: var(--green-second);
+    font-weight: bold;
+    cursor: pointer;
+    width: 100px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+
+
+

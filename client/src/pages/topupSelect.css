@@ -1,0 +1,146 @@
+.topup-select {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 100px 0px;
+}
+
+.topup-select-container {
+    width: 64%;
+    /* border: 1px solid red; */
+}
+
+.topup-select-container .topup-choose {
+    background-color: var(--background-gray);
+    border-radius: 12px;
+    padding: 40px 20px;
+    height: max-content;
+}
+
+.topup-select-container .topup-choose .topup-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.topup-select-container .topup-choose .topup-header .topup-eng {
+    color: var(--blue);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.topup-select-container .topup-choose .topup-header .topup-th {
+    font-weight: bold;
+}
+
+.topup-select-container .topup-choose .topup-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.topup-select-container .topup-choose .topup-card .card{
+    flex: 1;
+    /* border: 1px solid red; */
+    border-radius: 12px;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* padding: 10px; */
+}
+
+.topup-select-container .topup-choose .topup-card .card .top{
+    background-color: var(--gray);
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 10px 10px;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .img{
+    height: 363px;
+    width: 556px;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 12px;
+    /* padding: 12px; */
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.topup-select-container .topup-choose .topup-card .card .top .slip img{
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .selecter-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .selecter-text .select-name {
+    font-weight: bold;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .selecter-text .select-status {
+    width: 120px;
+    height: 30px;
+    border-radius: 8px;
+    background-color: #D2F9D2;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .selecter-text .select-status div{
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    margin-right: 6px;
+    border-radius: 100%;
+}
+
+.topup-select-container .topup-choose .topup-card .card .top .selecter-text .select-status div{
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    margin-right: 6px;
+    border-radius: 100%;
+}
+
+.topup-select-container .topup-choose .topup-card .card .topup-red-btn {
+    background-color: var(--red);
+    color: var(--white);
+    width: 120px;
+    height: 36px;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.topup-select-container .topup-choose .topup-card .card .topup-green-btn {
+    background-color: var(--green-btn);
+    color: var(--white);
+    width: 120px;
+    height: 36px;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+

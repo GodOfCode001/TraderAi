@@ -1,0 +1,62 @@
+.about-faq {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.about-faq-container {
+    width: 64%;
+
+}
+
+.about-faq-container .about-faq-header {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+.about-faq-container .about-faq-body {
+    padding: 40px 0px;
+}
+
+.about-faq-container .about-faq-body .pegination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.about-faq-container .about-faq-body .pegination .card-com {
+    display: flex;
+    gap: 60px;
+}
+
+.about-faq-container .about-faq-body .pegination .card-com .card {
+    width: 180px;
+    height: 300px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 26px;
+    border-radius: 14px;
+    position: relative;
+}
+.about-faq-container .about-faq-body .pegination .card-com .card .faq-heading {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.about-faq-container .about-faq-body .pegination .card-com .card .faq-body {
+    text-align: center;
+}
+
+.about-faq-container .about-faq-body .pegination .card-com .card .read-more {
+    background-color: var(--black);
+    color: var(--white);
+    width: 120px;
+    height: 36px;
+    border-radius: 8px;
+    position: absolute;
+    bottom: 28px;
+    cursor: pointer;
+}
+
