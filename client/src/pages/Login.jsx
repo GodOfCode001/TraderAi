@@ -10,46 +10,19 @@ import Cookies from 'js-cookie';
 
 const Login = () => {
     const {t} = useTranslation()
-    const { login, logout } = useContext(AuthContext)
-    // const [username, setUsername] = useState("")
-    // const [password, setPassword] = useState("")
+    const { login, resetTimer } = useContext(AuthContext)
     const [inputs, setInputs] = useState({
       username: "",
       password: "",
     })
 
-    // console.log(inputs)
+
 
     const handleChange = (e) => {
       setInputs(prev=> ({...prev, [e.target.name]: e.target.value }))
     }
 
-    // const logout = async () => {
-    //   const res = await axios.post('/api/auth/logout')
-    //   if (res.status === 200) {
-    //     localStorage.clear();
-    //   }
-    //   console.log(res)
-    // }
-
-    // logout()
     const navigate = useNavigate()
-
-
-    // const autoLogout = () => {
-    //     const token = Cookies.get('access_token');
-    //     return console.log(token)
-    // }
-
-    // autoLogout();
-
-//     const autoLogout = () => {
-//     const token = Cookies.get('access_token');
-//     console.log(token);  // ตรวจสอบว่าค่าถูกต้องหรือไม่
-// }
-
-// autoLogout();
-
 
     const handleSubmit = async (e) => {
       e.preventDefault()
@@ -60,9 +33,11 @@ const Login = () => {
       if (inputs.password === "") {
         alert("Please enter a password")
       }
+
       try {
         console.log("going to login")
         await login(inputs)
+        resetTimer();
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -78,7 +53,7 @@ const Login = () => {
           icon: "success",
           title: "ล็อคอินสำเร็จ"
         });
-        // navigate("/")
+        navigate("/")
       } catch (error) {
         console.log(error)
       }

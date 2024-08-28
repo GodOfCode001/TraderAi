@@ -84,6 +84,7 @@ io.on('connection', (socket) => {
         // console.log(userId)
         onlineUsers.set(userId, socket.id);
         resetHeartbeatTimeout(userId);
+        console.log("new user login is", userId + "now all connected" + [...onlineUsers.keys()]);
         io.emit('update-user-status', [...onlineUsers.keys()]); // ส่งข้อมูลผู้ใช้ที่ออนไลน์ไปยังทุกคน
 
         // Start the heartbeat timeout when the user is online
@@ -91,14 +92,16 @@ io.on('connection', (socket) => {
 
     // ตั้งค่าการตรวจสอบ heartbeat
     socket.on('heartbeat', (userId) => {
+        // console.log('receved heartbeat')
         resetHeartbeatTimeout(userId);
         console.log(`Heartbeat received from user ${userId}`);
         onlineUsers.set(userId, socket.id);
+        socket.emit('update-user-status', [...onlineUsers.keys()]);
       });
 
     // เมื่อผู้ใช้ตัดการเชื่อมต่อ
     socket.on('user-offline', (offlineId) => {
-        console.log('socket useroffline is', offlineId);
+        // console.log('socket useroffline is', offlineId);
 
         let offlineUserId;
 
@@ -107,8 +110,8 @@ io.on('connection', (socket) => {
             // console.log("id",id)
 
             if (offlineId === userId) {
+                // console.log("logout user from index is", userId)
                 onlineUsers.delete(userId)
-                console.log("logout user is", userId)
             } else {
                 console.log("id not match")
             }
@@ -132,7 +135,6 @@ io.on('connection', (socket) => {
             userHeartbeats.delete(userId);
         } , heartbeatInterval)
 
-        // console.log("id before set heartbeat", userId);
         userHeartbeats.set(userId, timeout)
         
     }
