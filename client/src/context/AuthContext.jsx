@@ -15,6 +15,8 @@ export const AuthProvider = ({ children }) => {
         i18n.changeLanguage(lng);
       };
 
+    const api = "https://api.oattydev.online"
+
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null)
     // console.log(currentUser)
     const [heartbeatInterval, setHeartbeatInterval] = useState(null);
@@ -96,7 +98,7 @@ export const AuthProvider = ({ children }) => {
     
 
     return (
-        <AuthContext.Provider value={{ currentUser, login, logout, changeLanguage }}>
+        <AuthContext.Provider value={{ currentUser, login, logout, changeLanguage, api }}>
             {children}
         </AuthContext.Provider>
     )
