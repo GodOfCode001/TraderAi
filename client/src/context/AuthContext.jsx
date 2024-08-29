@@ -102,6 +102,13 @@ export const AuthProvider = ({ children }) => {
         newSocket.emit('user-online', currentUser.users_id);
       }
 
+      if (currentUser && !socket) {
+          const intervalId = setInterval(() => {
+          socket.emit('heartbeat', currentUser.users_id);
+        }, 10000)
+        setHeartbeatInterval(intervalId);
+      }
+
       if (currentUser) {
           const intervalId = setInterval(() => {
           socket.emit('heartbeat', currentUser.users_id);

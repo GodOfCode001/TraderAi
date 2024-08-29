@@ -53,6 +53,22 @@
   color: var(--label);
 }
 
+.btn {
+  padding: 12px 20px;
+  background-color: var(--black);
+  border: 1px solid var(--black);
+  color: var(--white);
+  border-radius: 12px;
+  transition: 0.3s all ease;
+}
+
+.btn:hover {
+  background-color: var(--box-darkmode);
+  border: 1px solid var(--box-darkmode);
+  color: var(--white);
+  cursor: pointer;
+}
+
 .confirm-btn {
   background-color: var(--black);
   padding: 12px;

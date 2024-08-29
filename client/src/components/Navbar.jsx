@@ -32,6 +32,10 @@ const Navbar = () => {
       navigate('/about');
     }
 
+    const userinfo = () => {
+      navigate('/userinfo')
+    }
+
   return (
     <div className="navbar">
       <div className="navbar-container">
@@ -62,8 +66,8 @@ const Navbar = () => {
           </div>
 
             {currentUser && currentUser !== null ? (
-            <div className="button">
-              <button onClick={logout}> logout </button>
+            <div className="userinfo-button">
+              <button onClick={() => userinfo()} className='btn'> ข้อมูลผู้ใช้ </button>
             </div>
 
             ): (
