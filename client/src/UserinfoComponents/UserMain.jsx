@@ -7,7 +7,6 @@ const UserMain = ({ isOpen }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  console.log(isOpen)
   const selection = () => {
     navigate('/topup')
   }

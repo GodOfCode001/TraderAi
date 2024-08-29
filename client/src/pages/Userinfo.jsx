@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserSidebar from '../components/UserSidebar'
 import './userinfo.css'
 import UserMain from '../UserinfoComponents/UserMain'
@@ -8,10 +8,15 @@ import Transactions from '../UserinfoComponents/Transactions'
 import FAQPolicy from '../UserinfoComponents/FAQPolicy'
 import TradingStatement from '../UserinfoComponents/TradingStatement'
 import EditProfile from '../UserinfoComponents/EditProfile'
+import { AuthContext } from '../context/AuthContext'
+import { replace, useNavigate } from 'react-router-dom'
 
 const Userinfo = () => {
   const [activeComponent, setActiveComponent] = useState('main'); // Default is UserMain
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { currentUser } = useContext(AuthContext)
+
+  console.log(currentUser)
 
   const handleNavigation = (component) => {
     setActiveComponent(component);
@@ -20,6 +25,15 @@ const Userinfo = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!currentUser && currentUser === null) {
+      return navigate('/login');
+    }
+    
+  }, [currentUser])
 
   return (
     <div className={`userinfo ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
