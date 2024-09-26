@@ -61,12 +61,14 @@
     gap: 20px;
     margin-bottom: 20px;
     padding: 10px 10px;
+    border-radius: 8px;
 }
 
 .topup-select-container .topup-choose .topup-card .card .top .img{
     height: 363px;
     width: 556px;
     margin-top: 10px;
+    /* width: max-content; */
     overflow: hidden;
     border-radius: 12px;
     /* padding: 12px; */

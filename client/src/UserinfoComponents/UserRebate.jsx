@@ -1,9 +1,63 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './userRebate.css'
+import { AuthContext } from '../context/AuthContext'
 
 const UserRebate = () => {
-  const inviteCode = "ASDSDZXCKN123127105"
-  const inviteLink = "www.example.com/ASDSDZXCKN123127105"
+  const { currentUser, WEB_URL } = useContext(AuthContext)
+
+  const inviteCode = currentUser?.users_referral_code || null
+  const inviteLink = WEB_URL + "/register" + "/?ref=" + inviteCode
+
+  const copytoCodeClipboard = () => {    
+    const copyText = document.getElementById("invite-code")
+    
+    copyText.disabled = false;
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    
+    document.execCommand("copy");
+    
+    copyText.disabled = true;
+    const popup = document.getElementById("popup-notification");
+    popup.style.display = 'block';  // Make the popup visible
+    popup.style.opacity = '1';       // Start with full opacity
+  
+    // Hide the popup after a short delay
+    setTimeout(() => {
+      popup.style.opacity = '0'; // Start fading out
+  
+      // After the transition ends, set display to none
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 300); // Match this delay to the transition duration (300ms)
+    }, 500); // Show for 2 seconds before fading out // Hide after 2 seconds
+  }
+
+  const copytoLinkClipboard = () => {    
+    const copyText = document.getElementById("invite-link")
+    
+    copyText.disabled = false;
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    
+    document.execCommand("copy");
+    
+    copyText.disabled = true;
+    const popup = document.getElementById("popup-notification");
+    popup.style.display = 'block';  // Make the popup visible
+    popup.style.opacity = '1';       // Start with full opacity
+  
+    // Hide the popup after a short delay
+    setTimeout(() => {
+      popup.style.opacity = '0'; // Start fading out
+  
+      // After the transition ends, set display to none
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 300); // Match this delay to the transition duration (300ms)
+    }, 500); // Show for 2 seconds before fading out // Hide after 2 seconds
+  }
+
   return (
     <div className='user-rebate'>
       <div className="user-rebate-container">
@@ -33,13 +87,18 @@ const UserRebate = () => {
           <div className="right">
             <div className="code">
               <div className='code-header'>My code</div>
-              <input type="text" id='invite-code' name='invite-code' disabled value={inviteCode}/>
-              <button className='copy-btn'> Copy </button>
+              <input type="text" id='invite-code' name='invite-code' disabled value={inviteCode} />
+              <button className='copy-btn' onClick={copytoCodeClipboard}> Copy </button>
+              {/* <span id="copy-notification" style={{display: "none", marginLeft: "10px", color: "green", position: "absolute", top: "150px"}}>Copied!</span> */}
+              <div id="popup-notification">
+  Copied!
+</div>
             </div>
+
             <div className="link">
               <div className='link-header'>Invite link</div>
               <input type="text" id='invite-link' name='invite-link' disabled value={inviteLink}/>
-              <button className='copy-btn'> Copy </button>
+              <button className='copy-btn' onClick={copytoLinkClipboard}> Copy </button>
             </div>
           </div>
 
@@ -50,12 +109,12 @@ const UserRebate = () => {
           <div className="boxes">
             <div className="top-box">
               <p>My reabte class</p>
-              <p>Diamond</p>
+              <p style={{textTransform: "uppercase"}}> # {currentUser?.users_class ? currentUser.users_class : null} </p>
             </div>
 
             <div className="bototm-box">
             <p>My basic rebate rate</p>
-            <p>#</p>
+            <p># {} </p>
             </div>
           </div>
 

@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Outlet, RouterProvider, useLocation, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -18,15 +18,57 @@ import WithdrawSelect from './pages/WithdrawSelect'
 import BankDeposit from './topup/BankDeposit'
 import BankWithdraw from './topup/BankWithdraw'
 import UserRebate from './UserinfoComponents/UserRebate'
+import Admin from './pages/Admin'
+import AdminProtect from './RouteProtect/AdminProtect'
+import AdminUser from './pages/AdminUser'
+import AdminCheckTrans from './pages/AdminCheckTrans'
+import AdminCheckTranCash from './pages/AdminCheckTranCash'
+import AdminSettings from './pages/AdminSettings'
+import ResetPassword from './pages/ResetPassword'
+import ForgetPassword from './pages/ForgetPassword'
+import axios from 'axios'
+import { AuthContext } from './context/AuthContext'
+import IsLoading from './components/IsLoading'
+import UserChecking from './RouteProtect/UserChecking'
+import CryptoWallet from './RouteProtect/CryptoWallet'
 
 function App() {
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [feature, setFeature] = useState(null)
+  // const { backend } = useContext(AuthContext)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true)
+      console.log("Fecthing")
+     try {
+      // const res = await axios.get(`${backend}/api/coins/get`)
+      const res = await axios.get(`http://localhost:8800/api/coins/get`)
+      setFeature(res.data)
+     } catch (error) {
+      console.error('Error fetching data:', error)
+     } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000);
+     }
+    }
+    fetchData()
+  }, [])
+
+  if (isLoading) {
+    return <IsLoading />
+  }
 
   const Layout = () => {
     return (
       <>
+      <UserChecking>
       <Navbar />
-      <Outlet />
+      <Outlet context={{ feature }}/>
       <Footer />
+      </UserChecking>
       </>
     )
   }
@@ -74,7 +116,12 @@ function App() {
         },
         {
           path: "/crypto-deposit",
-          element: <Deposit />
+          // element: <Deposit />
+          element: (
+            <CryptoWallet>
+              <Deposit />
+            </CryptoWallet>
+          )
         },
         {
           path: "/crypto-withdraw",
@@ -87,6 +134,45 @@ function App() {
         {
           path: "/bank-withdraw",
           element: <BankWithdraw />
+        },
+        {
+          path: "/forget-password",
+          element: <ForgetPassword />
+        },
+        {
+          path: "/reset-password",
+          element: <ResetPassword />
+        }
+      ]
+    },
+    {
+      path: "/admin",
+      element: (
+        <AdminProtect>
+          <Layout />
+        </AdminProtect>
+      ),
+      children: [
+        {
+          path: "/admin",
+          element: 
+            <Admin />
+        },
+        {
+          path: "/admin/user",
+          element: <AdminUser />
+        },
+        {
+          path: "/admin/check-transaction",
+          element: <AdminCheckTrans />
+        },
+        {
+          path: "/admin/check-transaction-cash",
+          element: <AdminCheckTranCash />
+        },
+        {
+          path: "/admin/settings",
+          element: <AdminSettings />
         }
       ]
     }

@@ -16,7 +16,6 @@ const Userinfo = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { currentUser } = useContext(AuthContext)
 
-  console.log(currentUser)
 
   const handleNavigation = (component) => {
     setActiveComponent(component);

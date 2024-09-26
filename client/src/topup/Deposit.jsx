@@ -1,17 +1,107 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./deposit.css";
+import { AuthContext } from '../context/AuthContext'
+import IsLoading from '../components/IsLoading'
+import axios from "axios";
+import { Navigate, useNavigate } from 'react-router-dom'
+import Swal from "sweetalert2";
 
-const Deposit = () => {
+const Deposit = ({ data }) => {
   const { t } = useTranslation();
+  const { backend,currentUser,forceLogout, setCurrentUser } = useContext(AuthContext)
+  const [loading, SetLoading] = useState(true)
+  const [transactions, SetTransaction] = useState(null)
+  const navigate = useNavigate()
+
+   useEffect(() => {
+    SetLoading(true)
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${backend}/api/query-crypto-transactions`, {
+          withCredentials: true
+        })
+
+        if (res.data === "NOTOK") {
+          setCurrentUser(null)
+          localStorage.clear()
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Token expired, Pleases login again",
+            timer: 2000
+          });
+          setTimeout(() => {
+            navigate('/login')
+          }, 2000);
+        }
+        // console.log(res.data)
+        SetTransaction(res.data)
+        SetLoading(false)
+
+      } catch (error) {
+        if (error.response.status === 403) {
+          await forceLogout()
+          SetLoading(false)
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Token expired, Pleases login again",
+            timer: 3000
+          });
+          setTimeout(() => {
+            navigate('/login')
+          }, 3000);
+          SetLoading(false)
+        }
+      }
+    }
+    fetchData()
+    SetLoading(false)
+   }, [currentUser])
+
+  if (loading && !transactions) {
+    return <IsLoading />
+  }
+
+  const handleCopy = () => {
+    const copyText = document.getElementById("sub-address").innerText;
+    console.log(copyText);
+  
+    // สร้าง textarea ชั่วคราวเพื่อคัดลอกข้อความ
+    const tempTextarea = document.createElement("textarea");
+    tempTextarea.value = copyText;
+    document.body.appendChild(tempTextarea);
+    
+    tempTextarea.select();
+    document.execCommand("copy");
+    
+    document.body.removeChild(tempTextarea); // ลบ textarea หลังคัดลอก
+  
+    const popup = document.getElementById("popup-notification");
+    popup.style.display = 'block';  // แสดง popup
+    popup.style.opacity = '1';      // เริ่มต้นด้วย opacity เต็ม
+  
+    // ซ่อน popup หลังจาก delay สั้น ๆ
+    setTimeout(() => {
+      popup.style.opacity = '0'; // เริ่มลด opacity
+      setTimeout(() => {
+        popup.style.display = 'none';  // ซ่อน display หลังจาก transition จบ
+      }, 300); // ตรงกับ delay ของ transition (300ms)
+    }, 500); // แสดง popup 0.5 วินาทีก่อน fading out
+  }
+
+  // console.log(transaction)
+
   return (
     <div className="deposit">
       <div className="deposit-container">
         <div className="deposit-info">
+
           <div className="balance">
             <div className="balance-header">
               <div className="left"> <div className="img">
-                <img src="assets/coin/usdt.png" alt="" /></div> USDT</div>
+                <img src="assets/coin/usdt.png" alt="" /></div> USDT </div>
               <div className="right"> {t("teach")} &gt; </div>
             </div>
 
@@ -22,12 +112,12 @@ const Deposit = () => {
 
             <div className="balance-now">
               <div className="left">{t("balance")}</div>
-              <div className="right">0.02 USDT</div>
+              <div className="right">{data ? data.wallet_main_wallet : 0} USDT</div>
             </div>
 
             <div className="balance-freeze">
               <div className="left">{t("freeze")}</div>
-              <div className="right">0 USDT</div>
+              <div className="right">{data ? data.wallet_freeze : 0} USDT</div>
             </div>
 
             <div className="contract-address">
@@ -37,7 +127,7 @@ const Deposit = () => {
 
             <div className="total-balance">
               <div className="left">{t("total")}</div>
-              <div className="right">0.02 USDT </div>
+              <div className="right">{data ? data.wallet_main_wallet: 0} USDT </div>
             </div>
 
             <div className="chain">
@@ -49,10 +139,12 @@ const Deposit = () => {
             <div className="details-header">
             {t("address-name")}: BTC Binance Smart Chain (BEP20)
             </div>
+          <div id="popup-notification">Copied!</div>
             <div className="details-all">
-              <div className="address-information">
-                <p>TUZue4mxojMNgr2s1oZ61SaY2o8YizDV97</p>
-                <button className="copy"> {t("copy")} </button>
+              <div className="address-information" >
+                <p id="sub-address"> {data ? data.sub_address : null} </p>
+                <button className="copy" onClick={handleCopy}> {t("copy")} </button>
+                
               </div>
 
               <div className="warning">
@@ -84,16 +176,18 @@ const Deposit = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
+              {transactions && transactions.map((transaction, index) => (
+              <tr key={index}>
                 <td className="coin"><div className="img">
-                <img src="assets/coin/usdt.png" alt="" /></div> USDT</td>
-                <td>1.562136</td>
-                <td>11/07/2024 14:41:26</td>
-                <td>0x82e59aff995f689b0c79b0c...</td>
-                <td>0xa39aa522ff8851223ffskppka21mz...</td>
-                <td className="table-status-green">เสร็จสิ้น</td>
+                <img src="assets/coin/usdt.png" alt="" /></div> <p style={{textTransform: "uppercase"}}>{transaction.topup_symbol}</p> </td>
+                <td> {transaction.topup_value / Math.pow(10, transaction.topup_token_decimal)} </td>
+                <td className="specifi"> {new Date(transaction.topup_time_stamp * 1000).toLocaleString()} </td>
+                <td> {transaction?.topup_from} </td>
+                <td> {transaction?.topup_block_hash} </td>
+                <td className={transaction.topup_status === "pending" ? "table-status-yellow" : transaction.topup_status === "success" ? "table-status-green" : "table-status-red"}> {transaction.topup_status} </td>
               </tr>
-              <tr>
+              ))}
+              {/* <tr>
                 <td className="coin"><div className="img">
                 <img src="assets/coin/usdt.png" alt="" /></div> USDT</td>
                 <td>0.83562</td>
@@ -110,7 +204,7 @@ const Deposit = () => {
                 <td>0x82e59aff995f689b0c79b0c...</td>
                 <td>bbdaa522ff8851223ffskppka538a...</td>
                 <td className="table-status-red">ไม่สำเร็จ <a href=""> เนื่องจาก </a> </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

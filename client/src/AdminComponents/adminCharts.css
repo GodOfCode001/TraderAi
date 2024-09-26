@@ -1,0 +1,126 @@
+.admin-charts {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-charts-container {
+    width: 64%;
+    display: flex;
+    background-color: var(--background-gray);
+    border-radius: 12px;
+    /* padding: 20px; */
+}
+
+.admin-charts-container .left {
+    flex: 3;
+    /* width: 900px; */
+    height: max-content;
+    border-radius: 12px;
+    padding: 10px 10px 10px 20px;
+}
+
+.admin-charts-container .left .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 30px;
+    border-bottom: 1px solid var(--gray);
+    background-color: var(--white);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.admin-charts-container .left .header p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0px;
+}
+.admin-charts-container .left .header .icon{
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0px;
+}
+
+.admin-charts-container .left .charts {
+    height: 300px;
+    padding: 20px 0px;
+    background-color: var(--white);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    /* border: 1px solid red; */
+}
+
+.admin-charts-container .right {
+    flex: 1.5;
+    height: max-content;
+    border-radius: 12px;
+    padding: 10px 20px;
+    padding: 10px 20px 10px 10px;
+}
+
+.admin-charts-container .right .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 30px;
+    border-bottom: 1px solid var(--gray);
+    background-color: var(--white);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    /* height: 40px; */
+}
+
+.admin-charts-container .right .header p{
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0px;
+}
+.admin-charts-container .right .header .icon{
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0px;
+}
+
+.admin-charts-container .right .charts {
+    padding: 20px 0px;
+    background-color: var(--white);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    height: 300px; 
+}
+
+
+
+.recharts-tooltip-wrapper {
+    z-index: 999; /* Ensure the tooltip appears above other elements */
+  }
+  
+  .recharts-tooltip {
+    background-color: #ffffff; /* Set the background color */
+    border: 1px solid #ccc; /* Add border for better visibility */
+    padding: 10px; /* Adjust padding as needed */
+  }
+  
+  .recharts-tooltip-label {
+    color: #333; /* Set the text color */
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  .recharts-tooltip-item {
+    color: #666; /* Set the text color */
+  }
+  
+  .recharts-tooltip-cursor {
+    fill: transparent; /* Hide the tooltip cursor */
+  }
+  

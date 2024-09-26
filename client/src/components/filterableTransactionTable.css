@@ -1,0 +1,42 @@
+.transaction-table-container {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.search-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    z-index: 100;
+}
+.search-container .icons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    z-index: 100;
+}
+
+.search-input {
+    padding: 10px 10px;
+    border-radius: 4px;
+    width: 180px;
+    outline: none;
+    background-color: var(--background-gray);
+    border: var(--background-gray);
+}
+
+.transaction-table-container .rdt_TableHead {
+    background-color: var(--red);
+    /* cursor: pointer; */
+}
+
+.transaction-table-container .rdt_Table {
+    background-color: var(--red);
+}
+
+.transaction-table-container .rdt_Table {
+    background-color: var(--red);
+}

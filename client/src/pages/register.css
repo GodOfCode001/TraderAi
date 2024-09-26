@@ -1,20 +1,259 @@
 .register {
     display: flex;
     justify-content: center;
-    padding: 40px 0px 40px 0px;   
+    /* padding: 40px 0px 40px 0px; */
+    /* background-image: url("/assets/bgvideo/bg.mp4"); */
+    position: relative;
+}
+
+
+
+.register-container {
+    width: 64%;
 }
 
 .register-container {
+    /* position: absolute; */
+}
 
+.video-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -1px;
+    border: none;
+    z-index: -1;
+    overflow: hidden;
 }
 
 .register-card {
-
+    padding: 200px 0px;
+    display: flex;
+    justify-content: center;
 }
 
-.register-card fieldset {
+.register-card .left {
+    /* flex: 1;
+    height: 408px;
+    transform: translateX(50px);
+    background-color: gray;
+    backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
+    border-radius: 2em; */
+    /* border: 2px solid rgba(255, 255, 255, 0.18); */
+    /* padding: 40px;  */
+    flex: 1;
+    /* transform: translateX(50px); */
+    
+    background: rgba(221, 220, 220, 0.15); 
+    backdrop-filter: blur(10px); 
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1); 
+    border-radius: 20px; 
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+    color: #fff; 
+    z-index: 0; 
+    text-align: left; 
+}
+
+.register-card .left .header {
+    color: black;
+    padding: 30px 50px 30px 50px;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.register-card .left .step {
+    padding: 10px 150px 10px 50px;
+    display: flex;
+    gap: 20px;
+}
+
+.register-card .left .step .icon{
+    color: black;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(0 0 0/5%);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.register-card .left .step .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    opacity: 0.7;
+}
+
+/* .register-btn {
+    background-color: #1e90ff;
+    color: var(--white);
+    padding: 8px 16px;
+    text-transform: uppercase;
+    border: 1px solid #1e90ff;
+} */
+
+.register-btn {
+    background-color: var(--blue); /* สีฟ้าสด */
+    color: white; /* สีข้อความเป็นสีขาว */
+    padding: 10px 20px; /* เพิ่ม padding ให้ใหญ่ขึ้น */
+    text-transform: uppercase; /* ทำให้ข้อความเป็นตัวพิมพ์ใหญ่ */
+    border: none; /* เอาเส้นขอบออก */
+    border-radius: 20px; /* ปรับให้ขอบโค้งมนมากขึ้น */
+    font-size: 16px; /* ขนาดของข้อความ */
+    cursor: pointer; /* ทำให้เป็น pointer เมื่อ hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อย */
+    transition: background-color 0.3s ease; /* ทำให้เปลี่ยนสีแบบ smooth เมื่อ hover */
+}
+
+.register-btn:hover {
+    background-color: #1c86ee; /* เปลี่ยนสีเมื่อ hover */
+}
+
+.register-card .right {
+    /* transform: translateX(-50px); */
+    z-index: 50;
+    flex: 1;
+    background-color: #fff;
+    border-radius: 2em;
+    height: 408px;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.1); 
+    border-radius: 20px; 
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+}
+
+.register-card .right {
+    transform: translateX(-50px);
+    z-index: 50;
+    flex: 1;
+    background-color: #fff;
+    border-radius: 2em;
+}
+
+.register-card .right .header {
+    padding: 30px 50px 30px 50px;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.register-card .right form  {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 50px 30px 50px;
+    gap: 6px;
+    height: 322px;
+}
+
+.register-card .right .form-div  {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 50px 30px 50px;
+    gap: 6px;
+    height: 322px;
+    justify-content: space-between;
+}
+
+.register-card .right form .inputs-div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-card .right form .buttons-div .buttons .asking .forget-password {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+.register-card .right form .buttons-div .buttons .asking .forget-btn {
+    text-decoration: none;
+    color: var(--blue);
+    font-weight: bold;
+}
+/* login loading */
+.register-card .right form .buttons-div .buttons .loading-btn {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+    padding: 10px;
+}
+/* register loading */
+.register-card .right form .buttons .loading-btn {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+    padding: 10px;
+}
+
+
+.register-card .right form .buttons-div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.register-card .right form .inputs {
+    display: flex;
+    position: relative;
+    
+}
+
+.register-card .right form .inputs .icon{
+    position: absolute;
+    font-size: 1.5rem;
+    top: 10px;
+    left: 12px;
+}
+
+.register-card .right form .inputs input{
+    width: 100%;
+    height: 3em;
+    padding-left: 60px;
+    border-radius: 4em;
+    background-color: rgba(0 0 0/5%);
+    border: 1px solid rgba(0 0 0/5%);
+}
+
+.register-card .right form .inputs input:valid {
+    outline: none;
+    border: 1px solid var(--green);
+}
+
+.register-card .right form .inputs input:invalid:not(:focus):not(:placeholder-shown) {
+    outline: none;
+    border: 1px solid gray;
+}
+
+.register-card .right form input:invalid:focus,
+.register-card .right form .inputs input:invalid:not(:placeholder-shown) {
+    outline: none;
+    border: 1px solid var(--red); 
+}
+
+.register-card .right form .buttons {
+    position: relative;
+    bottom: 0;
+    padding: 10px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+
+
+
+
+/* .register-card fieldset {
     width: 640px;
-    height: 640px;
+    height: max-content;
+
     border-radius: 12px;
     display: flex;
     flex-direction: column;
@@ -70,7 +309,6 @@
     border-radius: 8px;
     padding-left: 10px;
     border: 1px solid gray;
-    /* outline: none; */
 }
 .register-card fieldset form input:valid {
     outline: none;
@@ -79,19 +317,16 @@
 
 .register-card fieldset form input:invalid:not(:focus):not(:placeholder-shown) {
     outline: none;
-    border: 1px solid gray; /* สีปกติเมื่อยังไม่ได้แตะ */
+    border: 1px solid gray;
 }
 
 .register-card fieldset form input:invalid:focus,
 .register-card fieldset form input:invalid:not(:placeholder-shown) {
     outline: none;
-    border: 1px solid var(--red); /* เปลี่ยนเป็นสีแดงเมื่อไม่ถูกต้อง */
+    border: 1px solid var(--red); 
 }
 
-/* .register-card fieldset form input:focus {
-    outline: none;
-    border: 1px solid var(--green);
-} */
+
 
 .register-card fieldset form .login {
     margin-top: 215px;
@@ -106,7 +341,6 @@
     border: none;
     background-color: var(--black);
     color: var(--white);
-    /* padding-left: 10px; */
 }
 
 .register-card fieldset form button:hover {
@@ -115,4 +349,4 @@
 
 .input-error {
     border: 2px solid red;
-  }
+  } */

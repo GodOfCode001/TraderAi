@@ -1,0 +1,82 @@
+.admin-transactions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-transactions-container {
+    width: 64%;
+    background-color: var(--background-gray);
+    border-radius: 12px;
+    /* border: 1px solid red; */
+}
+
+.admin-transactions-container .admin-all-transactions {
+    /* border: 1px solid red; */
+    padding: 10px 20px;
+    /* background-color: var(--background-gray); */
+}
+
+.admin-transactions-container .admin-all-transactions .data-table-container {
+    border: 1px solid #ddd;
+    border-radius: 12px; /* Adding border-radius */
+    overflow: hidden;
+    background-color: #fff; /* Background color */
+}
+
+/* Custom table styles */
+.data-table-container {
+    border: 1px solid #ddd;
+    border-radius: 12px; /* Adding border-radius */
+    overflow: hidden;
+    background-color: #fff; /* Background color */
+}
+
+.data-table-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    background-color: #f0f0f0;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Rounded corners for status tags */
+.success-status {
+    width: 50px;
+    text-align: center;
+    background-color: var(--green);
+    color: var(--white);
+    padding: 4px 8px;
+    border-radius: 16px;
+}
+
+.failed-status {
+    width: 50px;
+    text-align: center;
+    background-color: var(--red);
+    color: var(--white);
+    padding: 4px 8px;
+    border-radius: 16px;
+}

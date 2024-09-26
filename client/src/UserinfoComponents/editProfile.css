@@ -135,7 +135,6 @@
 .edit-profile-container form .bottom-right {
     grid-area: 2 / 2; /* Row 2, Column 2 */
     margin-top: 28px;
-
 }
 
 .edit-profile-container form .bottom-right .save-btn{
@@ -219,8 +218,6 @@
 }
 .edit-profile-container .crypto-container form .crypto-div:nth-child(4) {
     grid-area: 2 / 2;
-    /* display: flex;
-    justify-content: flex-end; */
     padding: 20px 0px;
 }
 .edit-profile-container .crypto-container form .crypto-div:nth-child(4) .confirm-btn {
@@ -230,6 +227,18 @@
     border-radius: 8px;
     border: 1px solid var(--black);
     cursor: pointer;
+    margin-right: 10px;
+}
+
+.edit-profile-container .crypto-container form .crypto-div:nth-child(4) .update-btn {
+    background-color: var(--yellow);
+    padding: 12px;
+    color: var(--black);
+    border-radius: 8px;
+    border: 1px solid var(--yellow);
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: bold; 
 }
 
 .edit-profile-container .bank-address {
@@ -327,5 +336,12 @@
     grid-area: 2 / 2;
 }
 .edit-profile-container .bank-address form .bank-div:nth-child(4) .confirm-btn {
-    margin-top: 18px;
+    /* margin-top: 18px; */
+    background-color: var(--black);
+    padding: 12px;
+    color: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--black);
+    cursor: pointer;
+    margin-right: 10px;
 }

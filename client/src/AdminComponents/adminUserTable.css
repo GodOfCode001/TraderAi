@@ -1,0 +1,47 @@
+.admin-user-table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-user-table-container {
+    width: 64%;
+    background-color: var(--background-gray);
+}
+
+.admin-user-table-container .user-table {
+    height: max-content;
+    padding: 10px 15px;
+}
+
+.admin-user-table-container .MuiTable-root {
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-user-table-container .MuiTableHead-root .MuiTableCell-root{
+    height: 50px;
+    font-weight: bold;
+    border-bottom: none;
+    /* font-size: 1rem; */
+    /* background-color: var(--white); */
+}
+.admin-user-table-container .MuiTableBody-root .MuiTableCell-root .MuiInputBase-root{
+    background-color: var(--yellow);
+    height: 40px;
+    width: 126px;
+}
+
+.admin-user-table-container .MuiTableRow-root {
+    height: 30px;
+    padding: 0px 20px;
+    overflow: hidden;
+    /* text-align: center; */
+}
+
+.admin-user-table-container .MuiTableCell-root{
+    padding: 4px 0px;
+    text-align: center;
+    background-color: var(--white);
+}
+

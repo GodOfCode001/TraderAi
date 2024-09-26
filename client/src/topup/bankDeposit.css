@@ -12,6 +12,7 @@
     width: 64%;
     gap: 20px;
     padding: 40px 0px;
+    position: relative;
 }
 
 .bank-deposit-container .bank-top {
@@ -116,11 +117,28 @@
     background-color: var(--gray);
 }
 
-.bank-deposit-container .bank-top .right img {
+.bank-deposit-container .bank-top .right label img {
     position: absolute;
     top: 0;
     filter: grayscale(100%) brightness(70%) contrast(80%);
+    object-fit: cover;
+    width: 30%;
+    height: 100%;
 
+    /* background-color: red; */
+}
+
+.bank-deposit-container .bank-top .right label #with-img {
+  width: 30%;
+  height: 100%;
+  object-fit: cover;
+  filter: none;
+}
+
+.bank-deposit-container .bank-top .right label #no-img {
+  width: 30%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .bank-deposit-container .bank-top .right .your-transfered {

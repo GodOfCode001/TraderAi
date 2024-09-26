@@ -1,0 +1,45 @@
+.AdminCheckTransactionCash {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+.AdminCheckTransactionCash-container {
+    width: 64%;
+}
+
+.AdminCheckTransactions-container .table {
+    
+}
+
+.AdminCheckTransactionCash-container .MuiTable-root {
+    padding: 20px;
+    text-align: center;
+}
+
+.AdminCheckTransactionCash-container .MuiTableHead-root .MuiTableCell-root{
+    height: 50px;
+    font-weight: bold;
+    border-bottom: none;
+    /* font-size: 1rem; */
+    /* background-color: var(--white); */
+}
+.AdminCheckTransactionCash-container .MuiTableBody-root .MuiTableCell-root .MuiInputBase-root{
+    background-color: var(--yellow);
+    height: 40px;
+    width: 126px;
+}
+
+.AdminCheckTransactionCash-container .MuiTableRow-root {
+    height: 30px;
+    padding: 0px 20px;
+    overflow: hidden;
+    /* text-align: center; */
+}
+
+.AdminCheckTransactionCash-container .MuiTableCell-root{
+    padding: 4px 0px;
+    text-align: center;
+    background-color: var(--white);
+}

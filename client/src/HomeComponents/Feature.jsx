@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './feature.css'
 import axios from 'axios'
 import { FiArrowUpRight, FiArrowDown } from 'react-icons/fi'
 import { useTranslation } from 'react-i18next'
+import { AuthContext } from '../context/AuthContext'
 
-const Feature = () => {
+const Feature = ({data}) => {
     const { t } = useTranslation()
-    const [data, setData] = useState(null)
+    // console.log(data)
+    // const [data, setData] = useState(null)
+    const { backend } = useContext(AuthContext)
+    // console.log(data)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await axios.get('/api/coins/get')
-            console.log(res.data)
-            setData(res.data)
-        }
-        fetchData()
-    }, [])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const res = await axios.get(`${backend}/api/coins/get`)
+    //         console.log(res.data)
+    //         setData(res.data)
+    //     }
+    //     fetchData()
+    // }, [])
 
     if (!data) return null
 
@@ -34,7 +38,7 @@ const Feature = () => {
             <div className='right'>
               <div className='card'>
                 <div className='top'>
-                    <img src={data[0].coin_img_path} alt='/'/>
+                    <img src={data[0].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[0].coin_name} </h5>
@@ -56,7 +60,7 @@ const Feature = () => {
 
               <div className='card'>
                 <div className='top'>
-                    <img src={data[1].coin_img_path} alt='/'/>
+                    <img src={data[1].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[1].coin_name} </h5>
@@ -78,7 +82,7 @@ const Feature = () => {
               
               <div className='card'>
                 <div className='top'>
-                    <img src={data[2].coin_img_path} alt='/'/>
+                    <img src={data[2].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[2].coin_name} </h5>
@@ -100,7 +104,7 @@ const Feature = () => {
 
               <div className='card'>
                 <div className='top'>
-                    <img src={data[3].coin_img_path} alt='/'/>
+                    <img src={data[3].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[3].coin_name} </h5>
@@ -121,7 +125,7 @@ const Feature = () => {
               </div>
               <div className='card'>
                 <div className='top'>
-                    <img src={data[4].coin_img_path} alt='/'/>
+                    <img src={data[4].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[4].coin_name} </h5>
@@ -143,7 +147,7 @@ const Feature = () => {
             
               <div className='card'>
                 <div className='top'>
-                    <img src={data[5].coin_img_path} alt='/'/>
+                    <img src={data[5].coin_img_path} alt={t('image-alt')}/>
                 </div>
                 <div>
                     <h5> {data[5].coin_name} </h5>

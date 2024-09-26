@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
 
     // const socket = io('http://localhost:8800');
     
-    const backend = "http://localhost:8800"
     const { i18n } = useTranslation();
 
     const changeLanguage = (lng) => {
@@ -19,15 +18,33 @@ export const AuthProvider = ({ children }) => {
       };
 
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user")) || null)
+    const backend = "http://localhost:8800"
+    const WEB_URL = "http://localhost:5173"
     const [heartbeatInterval, setHeartbeatInterval] = useState(null);
-    const INACTIVITY_LIMIT = 60000; // 60000 === 1 minute
+    const INACTIVITY_LIMIT = 1800000; // 60000 === 1 minute
     const [remainingTime, setRemainingTime] = useState(INACTIVITY_LIMIT)
     const [socket, setSocket] = useState(null)
 
-    
+    const register = async (inputs) => {
+      const res = await axios.post(`${backend}/api/auth/register`, inputs, {
+        withCredentials: true,
+      })
+
+      const id = res.data.users_id
+      setCurrentUser(res.data)
+      // socket.emit('user-online', id);
+
+      const newSocket = io(`${backend}`);
+      setSocket(newSocket);
+      newSocket.emit('user-online', id)
+
+      heartbeatFunction(id)
+    }
 
     const login = async (inputs) => {
-        const res = await axios.post('/api/auth/login', inputs)
+        const res = await axios.post(`${backend}/api/auth/login`, inputs, {
+          withCredentials: true
+        })
         const id = res.data.users_id
         setCurrentUser(res.data)
         // socket.emit('user-online', id);
@@ -35,6 +52,8 @@ export const AuthProvider = ({ children }) => {
         const newSocket = io(`${backend}`);
         setSocket(newSocket);
         newSocket.emit('user-online', id)
+
+        heartbeatFunction(id)
     }
 
     const logout = async () => {
@@ -58,7 +77,10 @@ export const AuthProvider = ({ children }) => {
           }
 
           // socket.emit('user-offline', currentUser.users_id)
-          const res = await axios.post('/api/auth/logout', {userId: currentUser.users_id})
+          const res = await axios.post(`${backend}/api/auth/logout`, 
+            {userId: currentUser.users_id}, {
+            withCredentials: true
+          })
             setCurrentUser(null)
             // clearToken()
             localStorage.clear();
@@ -83,35 +105,84 @@ export const AuthProvider = ({ children }) => {
           setSocket(null)
         }
         // socket.emit('user-offline', currentUser.users_id)
-        const res = await axios.post('/api/auth/logout', {userId: currentUser.users_id})
+        const res = await axios.post(`${backend}/api/auth/logout`, 
+          {userId: currentUser.users_id}, {
+          withCredentials: true
+        })
         setCurrentUser(null)
         localStorage.clear();
       }
+    }
+
+    // reset-password part 
+
+    const forgetpassword = async (inputs) => {
+      const res = await axios.post(`${backend}/api/auth/forgetpassword`, inputs, {
+        withCredentials: true
+      })
+
+      return res
+    }
+
+    const resetpassword = async (inputs) => {
+      const res = await axios.post(`${backend}/api/auth/forgetpassword/resetpassword`, inputs, {
+        withCredentials: true
+      })
+
+      return res
     }
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(currentUser))
     },[currentUser])
 
-    useEffect(() => {
+    const heartbeatFunction = (userId) => {
+      if (socket) {
+        socket.emit('heartbeat', userId)
+      } else if (!socket) {
+        const newSocket = io(`${backend}`)
+        setSocket(newSocket)
+        newSocket.emit('heartbeat', userId)
+      } else {
+        return
+      }
+    }
 
+    useEffect(() => {
       // let intervalId;
       if (currentUser && !socket) {
         const newSocket = io(`${backend}`);
         setSocket(newSocket);
         newSocket.emit('user-online', currentUser.users_id);
+
+        newSocket.emit('heartbeat', currentUser.users_id);
+        console.log('heartbeat sent from 1')
       }
 
-      if (currentUser && !socket) {
-          const intervalId = setInterval(() => {
-          socket.emit('heartbeat', currentUser.users_id);
-        }, 10000)
-        setHeartbeatInterval(intervalId);
-      }
+      
+
+      // if (currentUser && !socket) {
+      //   // console.log("come second")
+      //     const intervalId = setInterval(() => {
+      //     socket.emit('heartbeat', currentUser.users_id);
+      //   }, 10000)
+      //   setHeartbeatInterval(intervalId);
+      // }
 
       if (currentUser) {
           const intervalId = setInterval(() => {
-          socket.emit('heartbeat', currentUser.users_id);
+            if (currentUser && !socket) {
+              const newSocket = io(`${backend}`, {
+                transports: ['websocket'],  // ใช้เฉพาะ websocket
+                reconnection: true,         // เปิดการ reconnect อัตโนมัติ
+                reconnectionAttempts: 5,    // จำนวนครั้งที่พยายาม reconnect
+                reconnectionDelay: 1000  
+              })
+              newSocket.emit('heartbeat', currentUser.users_id)
+            } else if (currentUser !== null) {
+              socket.emit('heartbeat', currentUser.users_id);
+              console.log("sent from 3")
+            }
         }, 10000)
         setHeartbeatInterval(intervalId);
       }
@@ -121,10 +192,12 @@ export const AuthProvider = ({ children }) => {
           clearInterval(heartbeatInterval);
         }
         if (socket) {
-          socket.close();
+          socket.disconnect();
         }
       }
     }, [currentUser])
+
+
 
       // Inactive track
 
@@ -171,7 +244,7 @@ export const AuthProvider = ({ children }) => {
 
     
     return (
-        <AuthContext.Provider value={{ currentUser, login, logout, changeLanguage, resetTimer }}>
+        <AuthContext.Provider value={{ currentUser, register, login, logout, changeLanguage, resetTimer, backend, setCurrentUser,WEB_URL, forgetpassword, resetpassword }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,0 +1,100 @@
+.admin-settings-com {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+.admin-settings-com-container {
+    width: 64%;
+    /* background-color: var(--background-gray); */
+    /* border-radius: 12px; */
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+
+
+.admin-settings-com-container .top {
+    padding: 20px;
+    background-color: var(--background-gray);
+    border-radius: 12px;
+}
+
+.admin-settings-com-container .top .top-header {
+    width: 100%;
+    height: 24px;
+    /* margin-bottom: 50px; */
+    /* border-bottom: 1px solid var(--black); */
+}
+
+.admin-settings-com-container .top .top-header p{
+    width: 300px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+}
+
+.admin-settings-com-container .top .top-header .second{
+    width: 150px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+}
+.admin-settings-com-container .top .top-header p::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    bottom: -6px;
+    border-bottom: 1px solid var(--black);
+}
+
+.admin-settings-com-container .top .settings-com {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 20px 6px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-settings-com-container .top .settings-com .left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.admin-settings-com-container .top .settings-com .left .icons{
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+}
+.admin-settings-com-container .top .settings-com .left .icons .icon{
+    font-size: 2rem;
+}
+
+.admin-settings-com-container .top .settings-com .left .icons img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-settings-com-container .top .settings-com .left .text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.admin-settings-com-container .top .settings-com .left .text .header{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.admin-settings-com-container .top .settings-com .right {
+
+}
+
+.admin-settings-com-container .top .settings-com .right button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}

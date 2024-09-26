@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import './userSidebar.css'
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AuthContext } from '../context/AuthContext'
+
 
 const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
     const { t } = useTranslation();
-    // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-    // const toggleSidebar = () => {
-    //   setIsSidebarOpen(!isSidebarOpen);
-    // };
+    const { currentUser, logout } = useContext(AuthContext)
 
   return (
 
@@ -26,12 +25,12 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
         <div className="user-info">
             <div className="info-1">
                 <div className='info-header'> {t("client-id")} </div>
-                <div> #00626 </div>
+                <div># {currentUser?.users_id} </div>
             </div>
 
             <div className="info-1">
                 <div className='info-header'>{t("class")}</div>
-                <div> Diamond </div>
+                <div style={{textTransform: "uppercase"}}> # {currentUser?.users_class} </div>
             </div>
 
             <div className="info-1">
@@ -40,7 +39,7 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
             </div>
             <div className="info-1">
                 <div className="info-header"> {t("referral-code")} </div>
-                <div> #1233219085SDFXCVQ </div>
+                <div> {currentUser?.users_referral_code} </div>
             </div>
             <button className='edit-profile-btn' onClick={() => onNavigate('edit-profile')}> {t("edit-profile")} </button>
         </div>
@@ -56,7 +55,7 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
             </button>
             <button className='link-button' onClick={() => onNavigate('faq-policy')}>FAQ / Policy</button>
             {/* <button className='link-button'>Link or button6</button> */}
-            <button className='link-button'>Logout</button>
+            <button className='link-button' onClick={() => logout()}>Logout</button>
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
 :root {
   --gray: #ededed;
-  --background-gray: rgb(241, 241, 241);
+  --background-gray: rgb(247, 247, 247);
   --green: #118c4f;
   --green-second: #56D6A7;
   --green-btn: #28A745;
   --red: #FF0000;
   --yellow: #FFD700;
+  --warning: #eb7d16;
   --blue: #266DF6;
   --background-dark: #161616;
   --background-light: #f5f8ff;
@@ -53,6 +54,21 @@
   color: var(--label);
 }
 
+.loader {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 3px solid rgb(255,255,255,.2);
+  border-top-color: transparent;
+  animation: rot1 1.2s linear infinite;
+}
+
+@keyframes rot1 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .btn {
   padding: 12px 20px;
   background-color: var(--black);
@@ -60,6 +76,7 @@
   color: var(--white);
   border-radius: 12px;
   transition: 0.3s all ease;
+  /* width: 200px; */
 }
 
 .btn:hover {
@@ -71,12 +88,55 @@
 
 .confirm-btn {
   background-color: var(--black);
-  padding: 12px;
+  padding: 10px;
   color: var(--white);
   border-radius: 8px;
   border: 1px solid var(--black);
   cursor: pointer;
+  min-width: 80px;
 }
+
+.disable-btn {
+  background-color: var(--disable);
+  padding: 12px;
+  color: var(--black);
+  border-radius: 8px;
+  border: 1px solid var(--disable);
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold; 
+  cursor: not-allowed;
+}
+
+.update-btn {
+  background-color: var(--yellow);
+  padding: 12px;
+  color: var(--black);
+  border-radius: 8px;
+  border: 1px solid var(--yellow);
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold; 
+}
+
+.green-btn {
+  background-color: var(--green);
+  padding: 6px 8px;
+  color: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--green);
+  cursor: pointer;
+}
+
+.red-btn {
+  background-color: var(--red);
+  padding: 6px 8px;
+  color: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--red);
+  cursor: pointer;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -86,4 +146,24 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
