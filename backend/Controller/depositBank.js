@@ -22,7 +22,7 @@ export const depositBank = (req, res) => {
 
             return res.status(200).json(data)
         })
-    })
+    }) 
 }
 
 export const bankTopupTransactions = (req, res) => {
@@ -38,10 +38,11 @@ export const bankTopupTransactions = (req, res) => {
         }
 
         const userId = data.id
-        const query = "SELECT * FROM bank_topup_transactions WHERE b_maker = ? ORDER BY b_created_at DESC"
+        const query = `SELECT * FROM all_transactions WHERE AT_maker = ? AND AT_transaction_type = "bank_deposit" ORDER BY AT_date_time DESC`
 
         db.query(query, [userId], (err, data) => {
             if (err) {
+                console.log(err)
                 return res.status(500).json("Internal error")
             }
 

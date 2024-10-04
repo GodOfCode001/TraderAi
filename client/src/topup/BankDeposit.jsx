@@ -18,6 +18,8 @@ const BankDeposit = () => {
   const { backend,forceLogout } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
+  // submit topup request
+
   const handleSendFile = async () => {
     const formData = new FormData()
     formData.append('slip', files)
@@ -94,40 +96,11 @@ const BankDeposit = () => {
     e.preventDefault()
   }
 
-  // const [fileUrl, setFileUrl] = useState('')
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(`${backend}/read-file/1tpZeaQY7yN5XvlVX9SOozJca1T0ObXu8`)
-  //       const id = res.data.webViewLink.split('/d/')[1].split('/')[0]
-  //       // const correctLink = main + link
-  //       // setFileUrl(correctLink)
-  //       console.log(id)
-
-  //       setFileUrl(id);
-  //     } catch (error) {
-  //       console.error('Error fetching file URL:', error);
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
-
-//   <iframe
-//   src={`https://drive.google.com/file/d/${fileUrl}/preview`}
-//   width="400" // adjust as needed
-//   height="400" // adjust as needed
-//   frameBorder="0"
-//   allowFullScreen
-// ></iframe>
-
-// if (loading) {
-//   return <IsLoading />
-// }
-
 const [bank, setBank] = useState(null)
 const [transactions, setTransactions] = useState(null)
 const navigate = useNavigate()
+
+// query website bank
 
 useEffect(() => {
   const fetchData = async () => {
@@ -154,6 +127,8 @@ useEffect(() => {
   }
   fetchData()
 }, [])
+
+// query transactions
 
 useEffect(() => {
   const fetchData = async () => {
@@ -291,15 +266,15 @@ useEffect(() => {
                   <tr key={index}>
                     <td className="coin">เงินบาท</td>
 
-                    <td> {transaction.b_amount.toLocaleString()} </td>
-                    <td> {new Date(transaction.b_created_at).toLocaleString()} </td>
-                    <td>{transaction.b_user_get.toLocaleString()} USDT</td>
-                    <td> {transaction.b_transaction_id} </td>
-                    <td className={transaction.b_status === 'pending' ? 'table-status-yellow' : transaction.b_status === 'success' ? "table-status-green" : "table-status-red"}> {transaction.b_status} {transaction.b_status === 'denied' ? <Link> เนื่องจาก </Link> : null}</td>
+                    <td> {transaction.AT_amount.toLocaleString()} </td>
+                    <td> {new Date(transaction.AT_date_time).toLocaleString()} </td>
+                    <td>{transaction.AT_user_get.toLocaleString()} USDT</td>
+                    <td> {transaction.AT_transactions_hash} </td>
+                    <td className={transaction.AT_status === 'pending' ? 'table-status-yellow' : transaction.AT_status === 'success' ? "table-status-green" : "table-status-red"}> {transaction.AT_status} {transaction.AT_status === 'denied' ? <Link> เนื่องจาก </Link> : null}</td>
                   </tr>
                 ))}
 
-              {/* <tr>
+              {/* {/* <tr>
                 <td className="coin">เงินบาท</td>
 
                 <td> 50,000 </td>
@@ -307,26 +282,8 @@ useEffect(() => {
                 <td>1,428 USDT</td>
                 <td>0xa39aa522ff8851223ffskppka21mz...</td>
                 <td className="table-status-green">เสร็จสิ้น</td>
-              </tr>
-
-              <tr>
-                <td className="coin">เงินบาท</td>
-                <td> 50,000 </td>
-                <td>11/07/2024 13:50:10</td>
-                <td>1,428 USDT</td>
-                <td>zcvk123cv22ff8851223ffskppka538a...</td>
-                <td className="table-status-yellow">กำลังดำเนินการ</td>
-              </tr>
-              <tr>
-                <td className="coin">เงินบาท</td>
-                <td> 50,000 </td>
-                <td>11/07/2024 12:21:10</td>
-                <td>1,428 USDT</td>
-                <td>bbdaa522ff8851223ffskppka538a...</td>
-                <td className="table-status-red">
-                  ไม่สำเร็จ <a href=""> เนื่องจาก </a>{" "}
-                </td>
               </tr> */}
+              
             </tbody>
           </table>
         </div>

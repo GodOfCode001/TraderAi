@@ -257,6 +257,18 @@ table {
     color: var(--yellow);
   }
 
+  .deposit-container .deposit-address-details .crypto-withdraw {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+  }
+  .deposit-container .deposit-address-details .crypto-withdraw div{
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
   .deposit-container .deposit-address-details .address-header  {
     position: relative;
     display: flex;

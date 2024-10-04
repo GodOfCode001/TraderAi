@@ -1,12 +1,10 @@
 import { db } from "../db.js";
 import schedule from 'node-schedule'
 
-export const deleteOldTransactions = () => {
+export const deleteOldBankTrans = () => {
     return schedule.scheduleJob('0 0 1 * *', async () => {
 
-        const deleteQuery = `DELETE FROM topup_transactions WHERE topup_created_at < NOW() - INTERVAL 1 MONTH;`
-
-        const update = `UPDATE wallet SET `
+        const deleteQuery = `DELETE FROM transactions WHERE transection_date < CURDATE() - INTERVAL 1 MONTH;`
 
         try {
             await new Promise((resolve, reject) => {
@@ -26,4 +24,3 @@ export const deleteOldTransactions = () => {
         }
     })
 }
-

@@ -26,7 +26,7 @@ export const queryCryptoTransaction = (req, res) => {
         db.query(q, [userId], async (err, data) => {
             if (err) {
                 console.log("error while executing query:", err)
-                return res.status(404).json("internal error")
+                return res.status(500).json("internal error")
             }
 
             const address = data[0].sub_address
@@ -40,7 +40,8 @@ export const queryCryptoTransaction = (req, res) => {
                 if (data.status === '1' && Array.isArray(data.result)) {
 
                     for (let item of data.result) {
-                        const checkQuery = `SELECT COUNT(*) AS count FROM topup_transactions WHERE topup_hash = ?`
+                        // console.log(item)
+                        const checkQuery = `SELECT COUNT(*) AS count FROM all_transactions WHERE AT_transactions_hash = ?`
 
                         const checkValues = [item.hash];
 
@@ -53,9 +54,11 @@ export const queryCryptoTransaction = (req, res) => {
                         // console.log(checkResult)
 
                         const count = checkResult[0].count;
+                        const totalGet = item.value / Math.pow(10, item.tokenDecimal)
+                        // console.log(totalGet)
 
                         if (count === 0) {
-                            const insertQuery = "INSERT INTO topup_transactions (`topup_block_number`, `topup_time_stamp`, `topup_hash`, `topup_block_hash`, `topup_from`, `topup_to`, `topup_contract_address`, `topup_value`, `topup_token_decimal`, `topup_token_name`, `topup_confirmations`, `topup_owner`, `topup_symbol`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                            const insertQuery = "INSERT INTO all_transactions (`AT_block_number`, `AT_time_stamp`, `AT_transactions_hash`, `AT_block_hash`, `AT_from`, `AT_to`, `AT_contract_address`, `AT_value`, `AT_token_decimal`, `AT_token_name`, `AT_crypto_confirmations`, `AT_maker`, `AT_crypto_symbol`, `AT_user_get`, `AT_amount`, `AT_transaction_type`, `AT_is_principal`, `AT_crypto_chain`, `AT_user_address`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                             const insertValues = [
                                 item.blockNumber,
@@ -70,7 +73,13 @@ export const queryCryptoTransaction = (req, res) => {
                                 item.tokenName,
                                 item.confirmations,
                                 userId,
-                                item.tokenSymbol
+                                item.tokenSymbol,
+                                totalGet,
+                                totalGet,
+                                "crypto_deposit",
+                                1,
+                                "BEP-20",
+                                item.from
                               ];
 
                             await new Promise((resolve, reject) => {
@@ -90,7 +99,7 @@ export const queryCryptoTransaction = (req, res) => {
                     }
                 }
 
-                const checkUserTransactions = "SELECT * FROM topup_transactions WHERE topup_owner = ?"
+                const checkUserTransactions = "SELECT * FROM all_transactions WHERE AT_maker = ?"
 
                 db.query(checkUserTransactions, [userId], (err, data) => {
                     if (err) {

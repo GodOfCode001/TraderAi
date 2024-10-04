@@ -21,10 +21,16 @@
 * {
   padding: 0;
   margin: 0;
+  font-family: sans-serif;
+  /* color: #fff; */
 }
 
 .app {
   position: relative;
+  /* background: url('assets/background/bg1.png');
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover;  */
 }
 
 .app .container {
@@ -134,6 +140,18 @@
   color: var(--white);
   border-radius: 8px;
   border: 1px solid var(--red);
+  cursor: pointer;
+}
+
+.withdraw-btn {
+  padding: 8px 16px;
+  width: max-content;
+  background-color: var(--green-btn);
+  border: 1px solid var(--green-btn);
+  color: var(--white);
+  border-radius: 6px;
+}
+.withdraw-btn:hover {
   cursor: pointer;
 }
 

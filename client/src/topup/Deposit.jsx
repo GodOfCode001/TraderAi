@@ -14,6 +14,8 @@ const Deposit = ({ data }) => {
   const [transactions, SetTransaction] = useState(null)
   const navigate = useNavigate()
 
+  // get transaction history
+
    useEffect(() => {
     SetLoading(true)
     const fetchData = async () => {
@@ -179,12 +181,12 @@ const Deposit = ({ data }) => {
               {transactions && transactions.map((transaction, index) => (
               <tr key={index}>
                 <td className="coin"><div className="img">
-                <img src="assets/coin/usdt.png" alt="" /></div> <p style={{textTransform: "uppercase"}}>{transaction.topup_symbol}</p> </td>
-                <td> {transaction.topup_value / Math.pow(10, transaction.topup_token_decimal)} </td>
-                <td className="specifi"> {new Date(transaction.topup_time_stamp * 1000).toLocaleString()} </td>
-                <td> {transaction?.topup_from} </td>
-                <td> {transaction?.topup_block_hash} </td>
-                <td className={transaction.topup_status === "pending" ? "table-status-yellow" : transaction.topup_status === "success" ? "table-status-green" : "table-status-red"}> {transaction.topup_status} </td>
+                <img src="assets/coin/usdt.png" alt="" /></div> <p style={{textTransform: "uppercase"}}>{transaction.AT_crypto_symbol}</p> </td>
+                <td> {transaction.AT_amount} </td>
+                <td className="specifi"> {new Date(transaction.AT_time_stamp * 1000).toLocaleString()} </td>
+                <td> {transaction?.AT_from} </td>
+                <td> {transaction?.AT_block_hash} </td>
+                <td className={transaction.AT_status === "pending" ? "table-status-yellow" : transaction.AT_status === "success" ? "table-status-green" : "table-status-red"}> {transaction.AT_status} </td>
               </tr>
               ))}
               {/* <tr>

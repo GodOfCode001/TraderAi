@@ -22,6 +22,7 @@ import queryCryptoTransactionsRoutes from './Routes/queryCryptoTrans.js'
 import uploadSlipRoutes from './Routes/uploadSlip.js'
 import depositBankRoutes from './Routes/depositBank.js'
 import userEditRoutes from './Routes/userEdit.js'
+import userWalletRoutes from './Routes/userWallet.js'
 import { db } from './db.js'
 import axios from 'axios'
 import { coin } from './schedule/coin.js'
@@ -31,8 +32,10 @@ import { apiLimiter, resetLimiter } from './middleWare/apiRateLimit.js'
 import { getERC20Transactions } from './schedule/Transactions.js'
 import { deleteOldTransactions } from './schedule/deleteOldTransaction.js'
 import { createSubAddress } from './schedule/createSubAddress.js'
-import { oauth2 } from 'googleapis/build/src/apis/oauth2/index.js'
-import { google } from 'googleapis'
+import { deleteOldBankTrans } from './schedule/deleteOldBankTrans.js'
+import { updateWallet } from './schedule/updateWallet.js'
+import { updateQuota } from './schedule/updateQuota.js'
+
 
 
 const corsOptions = {
@@ -64,6 +67,7 @@ app.use('/api/query-crypto-transactions', queryCryptoTransactionsRoutes)
 app.use('/api/upload-slip', uploadSlipRoutes)
 app.use('/api/deposit-bank', depositBankRoutes)
 app.use('/api/user', userEditRoutes)
+app.use('/api/user-wallet', userWalletRoutes)
 
 
 const setCoin = coin();
@@ -72,123 +76,66 @@ const statement = queryStatement();
 const transactions = getERC20Transactions();
 const deleteOldTransaction = deleteOldTransactions()
 const createSubWallet = createSubAddress()
+const deleteOldBankTransactions = deleteOldBankTrans()
+const updatingWallet = updateWallet()
+const updateQuotaWallet = updateQuota()
 
-const CLIENT_ID = '835342509712-osucu8kfqm5dj7d3obdo8gtm8mb2rm9i.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'http://localhost:8800';
-const REFRESH_TOKEN = '1//0gLTlxSZzwjOgCgYIARAAGBASNwF-L9IrmR4rOwNBR-DJjQi-KtBRjgYJAcYGCfHWryp3B2kpVHr0ppW-nV-z0SAyHzxUy9Zrfsc';
+// const queryDatabase = () => {
+//     const query = `
+//     WITH RECURSIVE recursive_commission AS (
+//         SELECT 
+//             r.referrerID, 
+//             cc.Level1Commission, 
+//             cc.Level2Commission, 
+//             cc.Level3Commission, 
+//             1 AS level
+//         FROM 
+//             referrals r  -- ตรวจสอบว่าชื่อ referrals ถูกต้อง
+//         JOIN 
+//             partners p ON r.referrerID = p.PartnerID  -- ตรวจสอบว่า partners ถูกต้อง
+//         JOIN 
+//             commissionclasses cc ON p.Class = cc.class  -- ตรวจสอบว่า CommissionClasses ถูกต้อง
+//         WHERE 
+//             r.referredID = 27
+        
+//         UNION ALL
+        
+//         SELECT 
+//             r.referrerID, 
+//             cc.Level1Commission, 
+//             cc.Level2Commission, 
+//             cc.Level3Commission, 
+//             rc.level + 1 AS level
+//         FROM 
+//             referrals r
+//         JOIN 
+//             partners p ON r.referrerID = p.PartnerID
+//         JOIN 
+//             commissionclasses cc ON p.Class = cc.class
+//         JOIN 
+//             recursive_commission rc ON rc.referrerID = r.referredID
+//         WHERE 
+//             rc.level < 3
+//     )
+//     SELECT 
+//         * 
+//     FROM 
+//         recursive_commission 
+//     ORDER BY 
+//         level;`;
 
-const oauth2Client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-);
-
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-
-const drive = google.drive({ version: "v3", auth: oauth2Client });
-
-// ฟังก์ชันอ่านไฟล์
-async function readFile(fileId) {
-    try {
-        const response = await drive.files.get({
-            fileId: fileId,
-            // alt: "media", // เพื่อดึงเนื้อหาไฟล์
-            fields: 'webViewLink, webContentLink',
-        });
-
-        console.log('File content:', response.data);
-        return response.data; // คืนค่าข้อมูลไฟล์
-    } catch (error) {
-        console.error('Error reading file:', error);
-        throw error;
-    }
-}
-
-// Route สำหรับอ่านไฟล์
-app.get("/read-file/:fileId", async (req, res) => {
-    const fileId = req.params.fileId;
-    
-    try {
-        const fileContent = await readFile(fileId);
-        res.status(200).send(fileContent);
-    } catch (error) {
-        res.status(500).send('Error reading file');
-    }
-});
-
-// const checkTransactions = async (address, chainId) => {
-//     let provider;
-    
-//     if (chainId === 'avax') {
-//         provider = new ethers.JsonRpcProvider('https://api.avax.network/ext/bc/C/rpc');
-//     } else if (chainId === 'bsc') {
-//         provider = new ethers.JsonRpcProvider('https://bsc-dataseed1.binance.org/');
-//     } else {
-//         throw new Error('Unsupported chain');
-//     }
-
-//     console.log(`Checking transactions for address ${address} on ${chainId.toUpperCase()} chain`);
-
-//     try {
-//         const latestBlock = await provider.getBlockNumber();
-//         const transactions = [];
-
-//         // ดึงข้อมูล 10 บล็อกล่าสุด (สามารถปรับจำนวนได้ตามต้องการ)
-//         for (let i = 0; i < 10; i++) {
-//             const block = await provider.getBlock(latestBlock - i, true);
-//             console.log(block)
-//             // if (block && block.transactions) {
-//             //     const relevantTxs = block.transactions.filter(tx => 
-//             //         tx.from.toLowerCase() === address.toLowerCase() || 
-//             //         (tx.to && tx.to.toLowerCase() === address.toLowerCase())
-//             //     );
-//             //     transactions.push(...relevantTxs);
-//             // }
+//     db.query(query, (err, data) => {
+//         if (err) {
+//             console.log('Error:', err.sqlMessage);
+//             return;
 //         }
-
-//         if (transactions.length > 0) {
-//             transactions.forEach((tx, index) => {
-//                 console.log(`Transaction ${index + 1}:`);
-//                 console.log(`  Hash: ${tx.hash}`);
-//                 console.log(`  From: ${tx.from}`);
-//                 console.log(`  To: ${tx.to || 'Contract Creation'}`);
-//                 console.log(`  Value: ${ethers.formatEther(tx.value)} ${chainId.toUpperCase()}`);
-//                 console.log('---');
-//             });
-//         } else {
-//             console.log('No transactions found in the last 10 blocks');
-//         }
-
-//         console.log(`Total transactions found: ${transactions.length}`);
-//     } catch (error) {
-//         console.error(`Error fetching transactions: ${error.message}`);
-//     }
+//         console.log(data);
+//     });
 // };
 
-// // ตัวอย่างการใช้งาน
-// const address = '0xEeCa50E8bD6c4Fb45099DfF50319aBA8B6A7E921';
+// queryDatabase();
 
-// // ตรวจสอบธุรกรรมบน AVAX
-// checkTransactions(address, 'avax');
-
-// ตรวจสอบธุรกรรมบน BSC
-// checkTransactions(address, 'bsc');
-
-// const getTransactions = async (address) => {
-
-//     const provider = new ethers.JsonRpcProvider('https://api.avax.network/ext/bc/C/rpc')
-//     console.log(provider)
-//     const history = await provider.getHistory(address)
-//     history.foreach((tx) => {
-//         console.log(tx)
-//     })
-// }
-
-// getTransactions()
-/////////////////////////////////////////////////////////////////////////
-
-// สร้าง HTTP server
+// 
 
 const server = http.createServer(app);
 

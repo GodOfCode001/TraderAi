@@ -7,6 +7,7 @@
   z-index: 60;
   /* height: 100vh; */
   background-color: var(--background-light);
+  /* backdrop-filter: blur(4px); */
 }
 
 .navbar-container {

@@ -43,6 +43,9 @@
     margin: auto;
     overflow: hidden;
 }
+.user-sidebar-container .tier-logo:hover {
+    cursor: pointer;
+}
 
 .user-sidebar-container .user-info {
     background-color: var(--background-light);

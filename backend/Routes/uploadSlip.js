@@ -85,28 +85,47 @@ router.post('/', upload.single('slip'), (req, res) => {
             const driveResponse = await uploadFileToDrive(filePath, fileName)
     
             const fileId = driveResponse.id
+
+            const queryUserWallet = `SELECT UBW_account FROM user_bank_wallet WHERE UBW_owner = ?`
     
-            const insertQuery = "INSERT INTO bank_topup_transactions (`b_transaction_id`, `b_amount`, `b_image_path`, `b_receiver`, `b_receiver_name`, `b_bank_name`, `b_maker`, `b_user_get`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+            const insertQuery = "INSERT INTO all_transactions (`AT_transactions_hash`, `AT_amount`, `AT_img_path`, `AT_to`, `AT_receiver_name`, `AT_bank_name`, `AT_maker`, `AT_user_get`, `AT_transaction_type`, `AT_user_address`, `AT_from`, `AT_is_principal`, `AT_crypto_symbol`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     
-            const values = [
-                transId,
-                amount,
-                fileId,
-                account,
-                receiver,
-                bank_name,
-                userId,
-                user_get
-            ]
-    
-            db.query(insertQuery, values, (err, data) => {
+
+
+            db.query(queryUserWallet, [userId], (err, data) => {
                 if (err) {
-                    console.log('error while insert topup transactions:', err)
-                    return res.status(500).json("internal error")
+                    console.log(err)
+                    return res.status(500).json("Internal error")
                 }
-    
-                res.status(200).json("Transaction successfully")
+
+                const userwallet = data[0].UBW_account
+
+                const values = [
+                    transId,
+                    amount,
+                    fileId,
+                    account,
+                    receiver,
+                    bank_name,
+                    userId,
+                    user_get,
+                    "bank_deposit",
+                    userwallet,
+                    userwallet,
+                    1,
+                    "bath"
+                ]
+
+                db.query(insertQuery, values, (err, data) => {
+                    if (err) {
+                        console.log('error while insert topup transactions:', err)
+                        return res.status(500).json("internal error")
+                    }
+        
+                    res.status(200).json("Transaction successfully")
+                })
             })
+    
     
         } catch (error) {
             res.status(500).json({ message: 'Error uploading File:', error })

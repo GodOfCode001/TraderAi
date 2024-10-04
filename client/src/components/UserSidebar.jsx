@@ -18,8 +18,8 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
         </div>
         <div className={`user-sidebar-container ${isOpen ? '' : 'closed'}`}>
 
-        <div className="tier-logo">
-            <img src="assets/rank-logo/diamond.png" alt="" />
+        <div className="tier-logo" onClick={() => onNavigate('main')}>
+            <img src={`assets/rank-logo/${currentUser?.users_class}.png`} alt="" />
         </div>
 
         <div className="user-info">

@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from "react-i18next";
 import './bankDeposit.css'
+import axios from 'axios'
+import { AuthContext } from '../context/AuthContext';
+import Swal from 'sweetalert2';
 
 const BankWithdraw = () => {
 
@@ -8,6 +11,7 @@ const BankWithdraw = () => {
 
     const [value, setValue] = useState(0);
     const [gotValue, setGotValue] = useState(0);
+    const { backend } = useContext(AuthContext)
     
     const handleInput = (e) => {
     // Remove leading zeros and ensure the value is positive
@@ -23,9 +27,182 @@ const BankWithdraw = () => {
     const positiveValue = Math.abs(inputValue);
   
     // Update the state with the values
-    setValue(positiveValue);
+    setValue(inputValue);
     setGotValue(totalInUSD.toFixed(2)); // Display with 2 decimal points
     };
+
+    // wallet part
+
+    // get Wallet
+
+    const [account, setAccount] = useState('')
+    const [accountName, setAccountName] = useState('')
+    const [bankName, setBankName] = useState('')
+    const [wallet, setWallet] = useState('')
+    const [freeze, setFreeze] = useState('')
+    const [profit, setProfit] = useState('')
+    const [principal, setPrincipal] = useState('')
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await axios.get(`${backend}/api/user-wallet`, {
+          withCredentials: true
+        })
+        console.log(res)
+        const data = res.data[0]
+        setAccount(data.UBW_account)
+        setAccountName(data.UBW_bank_account_name)
+        setBankName(data.UBW_bank_name)
+        setWallet(data.wallet_main_wallet)
+        setFreeze(data.wallet_freeze)
+        setProfit(data.wallet_profit)
+        setPrincipal(data.wallet_principal)
+      }
+      fetchData()
+    }, [])
+
+    // send withdraw request
+
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+
+      if (!account || !accountName || !bankName || !wallet) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops",
+          text: "ข้อมูลไม่ครบถ้วนกรุณาเพิ่มข้อมูลหน้าแก้ไขข้อมูล",
+        });
+        return
+      } 
+
+      if (!value) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops",
+          text: "โปรดกรอกจำนวนเงินการถอน",
+        });
+        return
+      }
+
+      if (value > wallet) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops",
+          text: "ยอดเงินคงเหลือไม่เพียงพอ",
+        });
+        return
+      }
+
+      if (value > profit) {
+        Swal.fire({
+          title: "included principal ?",
+          text: `your profit is ${profit} and principal is ${wallet - profit}`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Withdraw it!"
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+  
+            try {
+              const res = await axios.post(`${backend}/api/user-wallet/withdraw-request`, {
+                amount: value,
+                userHave: gotValue,
+                includedPrincipal: 1
+              }, {withCredentials: true})
+              Swal.fire({
+                title: "Request Success!",
+                text: res.data,
+                icon: "success",
+                timer: 1500
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 1500);      
+            } catch (error) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops",
+                text: error.response.data,
+              });
+            }
+  
+          }
+        });
+        return
+      }
+
+      try {
+        Swal.fire({
+          title: "Withdraw only Profit",
+          text: "Your will withdraw only profit ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, withdraw it!"
+        }).then(async (result) => {
+  
+          if (result.isConfirmed) {
+  
+            try {
+              const res = await axios.post(`${backend}/api/user-wallet/withdraw-request`, {
+                amount: value,
+                userHave: gotValue,
+                includedPrincipal: 0
+              }, {withCredentials: true})
+    
+              Swal.fire({
+                title: "Success!",
+                text: res.data,
+                icon: "success",
+                timer: 1500
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 1500)
+              setLoading(false)
+            } catch (error) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops",
+                text: error.response.data,
+              });
+              setLoading(false)
+            }
+          }
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops",
+          text: error.response.data,
+        });
+        setLoading(false)
+      }
+      setLoading(false)
+    }
+
+    // query transactios
+
+    const [transactions, setTransactions] = useState()
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await axios.get(`${backend}/api/user-wallet/get-transactions`, {
+            withCredentials: true
+          })
+          console.log(res.data)
+          setTransactions(res.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      fetchData()
+    }, [])
+
   return (
     <div className='bank-deposit'>
       <div className="bank-deposit-container">
@@ -35,30 +212,38 @@ const BankWithdraw = () => {
             <div className="left">
               <div className="left-header"> ช่องทางการรับเงิน </div>
               <div className="img">
-                <img src="assets/kasikorn.jpg" alt="" />
+                <img src={`assets/bank/${bankName}.jpg`} alt="" />
               </div>
               <div className="bank">
                 <p>ธนาคาร:</p>
-                <p className="bold">กสิกรไทย</p>
+                <p className="bold"> {bankName} </p>
               </div>
               <div className="bank-number">
               <p>เลขบัญชี:</p>
-              <p className="bold">0231235498</p>
+              <p className="bold">{account}</p>
               </div>
               <div className="bank-receiver">
               <p>ชื่อบัญชี:</p>
-              <p className="bold">user1234567</p>
+              <p className="bold">{accountName}</p>
               </div>
               <div className="bank-receiver">
-              <p>มีเงินทั้งหมด:</p>
-              <p className="bold"> 1,500 USDT </p>
+              <p>แช่แข็ง:</p>
+              <p className="bold"> {freeze} USDT </p>
+              </div>
+              <div className="bank-receiver">
+              <p>กำไร:</p>
+              <p className="bold"> {profit} USDT </p>
+              </div>
+              <div className="bank-receiver">
+              <p>ยอดเงินที่ถอนได้:</p>
+              <p className="bold"> {wallet} USDT </p>
               </div>
             </div>
 
             <div className="right">
               <div className="right-header">
                 <div>โปรดเลือกจำนวนการถอน</div>
-                <button className='slip-btn'> ถอนเงิน </button>
+                <button className='slip-btn' onClick={handleSubmit}> ถอนเงิน </button>
               </div>
 
               {/* <label htmlFor="files">
@@ -89,7 +274,7 @@ const BankWithdraw = () => {
             </div>
 
 
-            <div className="deposit-details">
+          <div className="deposit-details">
           <div className="details-header">
             <div className="left"> {t("deposit-history")} </div>
             <div className="right">
@@ -110,8 +295,20 @@ const BankWithdraw = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
+
+              {/* {transactions && transactions.map((trans, index) => (
+              <tr key={index}>
                 <td className="coin">เงินบาท</td>
+                <td> {trans.Amount} USDT </td>
+                <td> {new Date(trans.transection_date).toLocaleDateString()} {trans.transection_time} </td>
+                <td>{trans.transection_user_have.toLocaleString()} บาท</td>
+                <td>{trans.transection_tsx_id}</td>
+                <td className={trans.transection_status === "pending" ? "table-status-yellow" : trans.transection_status === "success" ? "table-status-green" : "table-status-red"}> {trans.transection_status} </td>
+              </tr>
+              ))} */}
+
+              {/* <tr>
+              <td className="coin">เงินบาท</td>
               
               <td> 1,428 USDT </td>
                 <td>11/07/2024 14:41:26</td>
@@ -119,6 +316,7 @@ const BankWithdraw = () => {
                 <td>0xa39aa522ff8851223ffskppka21mz...</td>
                 <td className="table-status-green">เสร็จสิ้น</td>
               </tr>
+
               <tr>
                 <td className="coin">เงินบาท</td>
                 <td> 1,428 USDT </td>
@@ -127,6 +325,7 @@ const BankWithdraw = () => {
                 <td>zcvk123cv22ff8851223ffskppka538a...</td>
                 <td className="table-status-yellow">กำลังดำเนินการ</td>
               </tr>
+
               <tr>
                 <td className="coin">เงินบาท</td>
                 <td> 1,428 USDT </td>
@@ -134,7 +333,7 @@ const BankWithdraw = () => {
                 <td>50,000 บาท</td>
                 <td>bbdaa522ff8851223ffskppka538a...</td>
                 <td className="table-status-red">ไม่สำเร็จ <a href=""> เนื่องจาก </a> </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

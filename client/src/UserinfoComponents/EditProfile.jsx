@@ -57,7 +57,7 @@ const EditProfile = () => {
 
   const banks = {
   1: "ธนาคารกสิกรไทย (Kasikorn Bank)",
-  2:  "ธนาคารกรุงเทพ (Bangkok Bank)",
+  2: "ธนาคารกรุงเทพ (Bangkok Bank)",
   3: "ธนาคารไทยพาณิชย์ (Siam Commercial Bank)",
   4: "ธนาคารกรุงไทย (Krung Thai Bank)",
   5: "ธนาคารทหารไทยธนชาต (TMBThanachart Bank หรือ TTB)",
@@ -67,15 +67,13 @@ const EditProfile = () => {
   9: "ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร (BAAC)",
   10:"ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อม (SME Bank)",
   12:"ธนาคารอิสลามแห่งประเทศไทย (Islamic Bank of Thailand)",
-  12:"ธนาคารแห่งประเทศไทย (Bank of Thailand)"
+  12:"ธนาคารยูโอบี (UOB)"
   }
 
   const [isEditable,  setIsEditAble] = useState(false)
   const [chain, setChain] = useState('')
   const [crypto, setCrypto] = useState('')
   const [confirm, setConfirm] = useState('')
-  // console.log(chain)
-  // console.log(crypto)
 
   const handleUpdateClick = () => {
     setIsEditAble(true)
