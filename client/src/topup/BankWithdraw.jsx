@@ -4,24 +4,51 @@ import './bankDeposit.css'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext';
 import Swal from 'sweetalert2';
-
+import { useLocation } from 'react-router-dom'
 const BankWithdraw = () => {
 
     const { t } = useTranslation();
 
     const [value, setValue] = useState(0);
     const [gotValue, setGotValue] = useState(0);
-    const { backend } = useContext(AuthContext)
+    const { backend, setCurrentUser } = useContext(AuthContext)
+    const location = useLocation()
+    const cat = location.search
+
+    // query currency_rate
+
+    const [rate, setRate] = useState()
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await axios.get(`${backend}/api/currency/get-thb-rate${cat}`, {
+            withCredentials: true
+          })
+          const data = res.data[0]
+          // console.log(res.data)
+          setRate(data.currency_rate)
+          console.log(data.currency_rate)
+        } catch (err) {
+          if (err.response.status === 403) {
+            localStorage.clear()
+            setCurrentUser(null)
+          }
+          console.log("error", err)
+        }
+
+      }
+      fetchData()
+    }, [cat])
     
     const handleInput = (e) => {
     // Remove leading zeros and ensure the value is positive
-    const usd = 33; // Exchange rate (1 USD = 33 Baht)
     
     // Get the user's input value (Baht amount)
     const inputValue = e.target.value.replace(/^0+/, '') || '0';
     
     // Convert Baht to USD
-    const totalInUSD = parseFloat(inputValue) * usd;
+    const totalInUSD = parseFloat(inputValue) * rate;
     
     // Ensure the value is positive
     const positiveValue = Math.abs(inputValue);
@@ -194,7 +221,7 @@ const BankWithdraw = () => {
           const res = await axios.get(`${backend}/api/user-wallet/get-transactions`, {
             withCredentials: true
           })
-          console.log(res.data)
+          console.log("transactions is", res.data)
           setTransactions(res.data)
         } catch (error) {
           console.log(error)
@@ -296,16 +323,16 @@ const BankWithdraw = () => {
             </thead>
             <tbody>
 
-              {/* {transactions && transactions.map((trans, index) => (
+              {transactions && transactions.map((trans, index) => (
               <tr key={index}>
                 <td className="coin">เงินบาท</td>
-                <td> {trans.Amount} USDT </td>
-                <td> {new Date(trans.transection_date).toLocaleDateString()} {trans.transection_time} </td>
-                <td>{trans.transection_user_have.toLocaleString()} บาท</td>
-                <td>{trans.transection_tsx_id}</td>
-                <td className={trans.transection_status === "pending" ? "table-status-yellow" : trans.transection_status === "success" ? "table-status-green" : "table-status-red"}> {trans.transection_status} </td>
+                <td> {trans.AT_amount} USDT </td>
+                <td> {new Date(trans.AT_date_time).toLocaleString()} </td>
+                <td>{trans.AT_user_get} บาท</td>
+                <td>{trans.AT_transactions_hash}</td>
+                <td className={trans.AT_status === "pending" ? "table-status-yellow" : trans.AT_status === "success" ? "table-status-green" : "table-status-red"}> {trans.AT_status} </td>
               </tr>
-              ))} */}
+              ))}
 
               {/* <tr>
               <td className="coin">เงินบาท</td>

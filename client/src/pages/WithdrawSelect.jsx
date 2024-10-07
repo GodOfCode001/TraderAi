@@ -1,7 +1,7 @@
 import React from 'react'
 import "./topupSelect.css"
 import { useTranslation} from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const WithdrawSelect = () => {
     const { t } = useTranslation()
@@ -38,7 +38,7 @@ const WithdrawSelect = () => {
 
                     </div>
                     
-                    <button className='topup-red-btn' onClick={cryptoWithdraw}>  {t("withdraw")} </button>
+                    <Link className='topup-red-btn link' to="/crypto-withdraw">  {t("withdraw")} </Link>
                 </div>
 
                 <div className="card">
@@ -54,7 +54,7 @@ const WithdrawSelect = () => {
 
                     </div>
                     
-                    <button className='topup-green-btn' onClick={bankWithdraw}> {t("withdraw")} </button>
+                    <Link className='topup-green-btn link' to="/bank-withdraw/?cat=B2D"> {t("withdraw")} </Link>
                 </div>
 
             </div>

@@ -23,6 +23,7 @@ import uploadSlipRoutes from './Routes/uploadSlip.js'
 import depositBankRoutes from './Routes/depositBank.js'
 import userEditRoutes from './Routes/userEdit.js'
 import userWalletRoutes from './Routes/userWallet.js'
+import currencyRoutes from './Routes/currency.js'
 import { db } from './db.js'
 import axios from 'axios'
 import { coin } from './schedule/coin.js'
@@ -68,6 +69,7 @@ app.use('/api/upload-slip', uploadSlipRoutes)
 app.use('/api/deposit-bank', depositBankRoutes)
 app.use('/api/user', userEditRoutes)
 app.use('/api/user-wallet', userWalletRoutes)
+app.use('/api/currency', currencyRoutes)
 
 
 const setCoin = coin();

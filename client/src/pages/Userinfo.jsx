@@ -9,16 +9,20 @@ import FAQPolicy from '../UserinfoComponents/FAQPolicy'
 import TradingStatement from '../UserinfoComponents/TradingStatement'
 import EditProfile from '../UserinfoComponents/EditProfile'
 import { AuthContext } from '../context/AuthContext'
-import { replace, useNavigate } from 'react-router-dom'
+import { replace, useNavigate, useLocation } from 'react-router-dom'
 
 const Userinfo = () => {
   const [activeComponent, setActiveComponent] = useState('main'); // Default is UserMain
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { currentUser } = useContext(AuthContext)
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const page = searchParams.get('p')
+  console.log(page)
 
 
-  const handleNavigation = (component) => {
-    setActiveComponent(component);
+  const handleNavigation = (page) => {
+    setActiveComponent(page);
   };
 
   const toggleSidebar = () => {
@@ -38,13 +42,13 @@ const Userinfo = () => {
     <div className={`userinfo ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
         <div className="userinfo-container">
             <UserSidebar onNavigate={handleNavigation} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            {activeComponent === 'main' && <UserMain isOpen={!isSidebarOpen}/>}
-            {activeComponent === 'rebate' && <UserRebate />}
-            {activeComponent === 'investment-class' && <InvestmentClass />}
-            {activeComponent === 'transaction' && <Transactions />}
-            {activeComponent === 'faq-policy' && <FAQPolicy />}
-            {activeComponent === 'trading-statements' && <TradingStatement />}
-            {activeComponent === 'edit-profile' && <EditProfile />}
+            {page === 'mainscreen' && <UserMain isOpen={!isSidebarOpen}/>}
+            {page === 'commission' && <UserRebate />}
+            {page === 'investment-class' && <InvestmentClass />}
+            {page === 'transaction' && <Transactions />}
+            {page === 'faq-policy' && <FAQPolicy />}
+            {page === 'trading-statements' && <TradingStatement />}
+            {page === 'edit-profile' && <EditProfile />}
         </div>
     </div>
   )

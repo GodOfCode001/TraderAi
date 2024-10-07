@@ -127,22 +127,29 @@
     background-color: var(--red);
     color: var(--white);
     width: 120px;
-    height: 36px;
+    height: 40px;
     border: none;
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .topup-select-container .topup-choose .topup-card .card .topup-green-btn {
     background-color: var(--green-btn);
     color: var(--white);
     width: 120px;
-    height: 36px;
+    height: 40px;
     border: none;
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
+    /* align-content: center; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

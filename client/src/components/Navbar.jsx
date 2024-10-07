@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import "./navbar.css"
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Navbar = () => {
     const { t } = useTranslation();
@@ -40,19 +40,19 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navbar-container">
 
-        <div className="logo" onClick={home}>
+        <Link className="logo link" to="/">
           <div className="img">
             <h3>Trader Ai</h3>
             {/* <img src="" alt="" /> */}
           </div>
-        </div>
+        </Link>
 
         <div className="menu">
           <div className="menu-list">
             <ul>
-              <li onClick={pricing}> {t("pricing")} </li>
-              <li onClick={about}> {t("about")} </li>
-              <li> {t("blog")} </li>
+              <li onClick={pricing}> <Link to="/rebate" className="link"> {t("pricing")} </Link> </li>
+              <li onClick={about}> <Link to="/about" className="link"> {t("about")} </Link> </li>
+              <li> <Link to="/" className="link"> {t("blog")} </Link> </li>
               <li className='change-language' onClick={dropdown}>
                {t("change")}
                 <div className={`lng-dropdown ${dropdownVisible ? 'visible' : ''}`}>
@@ -67,13 +67,13 @@ const Navbar = () => {
 
             {currentUser && currentUser !== null ? (
             <div className="userinfo-button">
-              <button onClick={() => userinfo()} className='btn'> ข้อมูลผู้ใช้ </button>
+              <Link to="/userinfo?p=mainscreen"  className='btn link'> ข้อมูลผู้ใช้ </Link>
             </div>
 
             ): (
               <div className="button">
-              <button onClick={login}> {t("login")} </button>
-              <button onClick={register}> {t("register")} </button>
+              <Link to="/login" className="link link-btn"> {t("login")} </Link>
+              <Link to="/register" className="link link-btn"> {t("register")} </Link>
             </div>
             )}
 

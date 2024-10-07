@@ -20,6 +20,8 @@
 .logo {
   justify-content: center;
   align-items: center;
+  /* color: var(--black); */
+  color: inherit;
 }
 
 .logo:hover {
@@ -74,27 +76,41 @@
   gap: 20px;
 }
 
-.menu .button button {
+.menu .button .link-btn {
   width: 100px;
   height: 44px;
   border-radius: 18px;
   border: none;
   transition: 0.1s all ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.menu .button button:nth-child(1):hover  {
+.menu .button .link-btn:nth-child(1):hover  {
   cursor: pointer;
   color: var(--black);
 }
-.menu .button button:nth-child(2):hover  {
+
+.menu .button .link-btn:nth-child(2):hover  {
   cursor: pointer;
   background-color: var(--white);
   color: var(--background-dark);
 }
 
-.menu .button button:nth-child(2) {
+.menu .button .link-btn:nth-child(1) {
+  color: var(--black);
+  background-color: var(--gray);
+}
+.menu .button .link-btn:nth-child(2) {
   color: var(--white);
   background-color: var(--background-dark);
+}
+
+.menu .userinfo-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lng-dropdown {

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import './userSidebar.css'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AuthContext } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
 
 const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
@@ -45,17 +46,17 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
         </div>
 
         <div className="pages-buttons">
-          <button className='link-button' onClick={() => onNavigate('trading-statements')}>Trading statement</button>
-          <button className='link-button' onClick={() => onNavigate('investment-class')}>Investment class</button>
-          <button className='link-button' onClick={() => onNavigate('transaction')}>Transactions history</button>
-            <button 
-              className='link-button'
-              onClick={() => onNavigate('rebate')}>
+          <Link className='link-button link' to="/userinfo/?p=trading-statements">Trading statement</Link>
+          <Link className='link-button link' to="/userinfo/?p=investment-class">Investment class</Link>
+          <Link className='link-button link' to="/userinfo/?p=transaction">Transactions history</Link>
+            <Link 
+              className='link-button link'
+              to="userinfo/?p=commission">
               Commission
-            </button>
-            <button className='link-button' onClick={() => onNavigate('faq-policy')}>FAQ / Policy</button>
+            </Link>
+            <Link className='link-button link' to="/userinfo/?faq-policy">FAQ / Policy</Link>
             {/* <button className='link-button'>Link or button6</button> */}
-            <button className='link-button' onClick={() => logout()}>Logout</button>
+            <button className='link-button link' onClick={() => logout()}>Logout</button>
         </div>
       </div>
     </div>
