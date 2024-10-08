@@ -5,6 +5,7 @@ import axios from 'axios'
 import { AuthContext } from '../context/AuthContext';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom'
+import IsLoading from '../components/IsLoading';
 const BankWithdraw = () => {
 
     const { t } = useTranslation();
@@ -14,6 +15,21 @@ const BankWithdraw = () => {
     const { backend, setCurrentUser } = useContext(AuthContext)
     const location = useLocation()
     const cat = location.search
+
+    // query Commission
+
+    const [partnerShare, setPartnerShare] = useState()
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const res = await axios.get(`${backend}/api/user-wallet/get-commission`, {
+          withCredentials: true
+        })
+        console.log("commission is:", res.data)
+        setPartnerShare(res?.data[0].PartnerSharePercentage)
+      }
+      fetchData()
+    }, [])
 
     // query currency_rate
 
@@ -43,19 +59,38 @@ const BankWithdraw = () => {
     
     const handleInput = (e) => {
     // Remove leading zeros and ensure the value is positive
-    
+
     // Get the user's input value (Baht amount)
     const inputValue = e.target.value.replace(/^0+/, '') || '0';
-    
-    // Convert Baht to USD
-    const totalInUSD = parseFloat(inputValue) * rate;
-    
-    // Ensure the value is positive
-    const positiveValue = Math.abs(inputValue);
+
+    if (profit > 0 && inputValue > profit) {
+      const profitInBath = profit * (partnerShare / 100) * rate;
+
+      // คำนวณ principal ที่เหลือหลังจากหัก profit
+      const principalInBath = (inputValue - profit) * rate;
   
-    // Update the state with the values
-    setValue(inputValue);
-    setGotValue(totalInUSD.toFixed(2)); // Display with 2 decimal points
+      // คำนวณผลรวมทั้งหมด
+      const totalInBath = profitInBath + principalInBath;
+  
+      // Update state
+      setValue(inputValue);
+      setGotValue(totalInBath.toFixed(2));
+    } else if (profit > 0) {
+      const totalPartnerShare = parseFloat((inputValue * (partnerShare / 100)) * rate)
+      setValue(inputValue);
+      setGotValue(totalPartnerShare.toFixed(2))
+    } else {
+      const totalInUSD = parseFloat(inputValue) * rate;
+      
+      // Ensure the value is positive
+      const positiveValue = Math.abs(inputValue);
+    
+      // Update the state with the values
+      setValue(inputValue);
+      setGotValue(totalInUSD.toFixed(2)); // Display with 2 decimal points
+    }
+
+    // Convert Baht to USD
     };
 
     // wallet part
@@ -69,6 +104,8 @@ const BankWithdraw = () => {
     const [freeze, setFreeze] = useState('')
     const [profit, setProfit] = useState('')
     const [principal, setPrincipal] = useState('')
+    const [loading, setLoading]  = useState(false)
+    // console.log(gotValue)
 
     useEffect(() => {
       const fetchData = async () => {
@@ -232,6 +269,7 @@ const BankWithdraw = () => {
 
   return (
     <div className='bank-deposit'>
+      {loading ? <div style={{position: "absolute", zIndex: 1000, transform: "translate(0%, -10%)"}}><IsLoading /></div> : null}
       <div className="bank-deposit-container">
 
           <div className="bank-top">
@@ -239,7 +277,7 @@ const BankWithdraw = () => {
             <div className="left">
               <div className="left-header"> ช่องทางการรับเงิน </div>
               <div className="img">
-                <img src={`assets/bank/${bankName}.jpg`} alt="" />
+                <img src={`/assets/bank/${bankName}.jpg`} alt="" />
               </div>
               <div className="bank">
                 <p>ธนาคาร:</p>

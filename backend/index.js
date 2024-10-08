@@ -71,7 +71,6 @@ app.use('/api/user', userEditRoutes)
 app.use('/api/user-wallet', userWalletRoutes)
 app.use('/api/currency', currencyRoutes)
 
-
 const setCoin = coin();
 const queryWallet = botWalletQuery();
 const statement = queryStatement();

@@ -49,7 +49,7 @@ const UserMain = ({ isOpen }) => {
           <div className="card">
             <div className="card-header">how to Gain more lose less ? how to Gain more lose less ? how to Gain more lose less ? how to Gain more lose less ?</div>
             <div className="card-img">
-              <img src="assets/trade.png" alt="" />
+              <img src="/assets/trade.png" alt="" />
             </div>
             <p className="card-details">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus
@@ -62,7 +62,7 @@ const UserMain = ({ isOpen }) => {
           <div className="card">
             <div className="card-header">how to Gain more lose less ?</div>
             <div className="card-img">
-              <img src="assets/trade.png" alt="" />
+              <img src="/assets/trade.png" alt="" />
             </div>
             <p className="card-details">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus
@@ -75,7 +75,7 @@ const UserMain = ({ isOpen }) => {
           <div className="card">
             <div className="card-header">how to Gain more lose less ?</div>
             <div className="card-img">
-              <img src="assets/trade.png" alt="" />
+              <img src="/assets/trade.png" alt="" />
             </div>
             <p className="card-details">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus

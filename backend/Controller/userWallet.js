@@ -6,6 +6,36 @@ const generateTransactionId = () => {
     return 'txn_' + Date.now() +  Math.random().toString(36).substr(2, 9)
 }
 
+export const queryCommission = (req, res) => {
+    const token = req.cookies.access_token
+
+    if (!token) {
+        return res.status(401).json("NOTOK")
+    }
+
+    jwt.verify(token, process.env.TOKEN_KEY, (err, data) => {
+        if (err) {
+            console.log("token error", err)
+            return res.status(403).json("Token error")
+        }
+
+        const userId = data.id
+
+        const checkComDistributed = "SELECT cmd.* FROM commissiondistribution cmd LEFT JOIN users u ON cmd.class = u.users_class WHERE u.users_id = ?"
+
+        db.query(checkComDistributed, [userId], (err, data) => {
+            if (err) {
+                console.log("error while query ComDistributed:", err)
+                return res.status(500).json("internal error")
+            }
+
+            // console.log(data)
+
+            return res.status(200).json(data)
+        })
+    })
+}
+
 export const getWallet = (req, res) => {
 
     const token = req.cookies.access_token;
@@ -61,7 +91,8 @@ export const withdrawRequest = (req, res) => {
     }
 
     const sanAmount = sanitizeInput(amount)
-    // const sanUserHave = sanitizeInput(userHave)
+    const sanUserHave = sanitizeInput(userHave)
+    console.log(sanUserHave)
 
     if (!token) {
         return res.status(401).json("NOTOK")
@@ -130,7 +161,7 @@ export const withdrawRequest = (req, res) => {
 
         const updateQuota = "UPDATE wallet SET wallet_remaining = wallet_remaining - 1 WHERE wallet_users_id = ?"
 
-
+        const queryCurrentRate = `SELECT currency_rate FROM currency_rate WHERE currency_name = "B2D"`
 
         db.beginTransaction(err => {
             if (err) {
@@ -138,278 +169,204 @@ export const withdrawRequest = (req, res) => {
                 return db.rollback(() => res.status(500).json("internal error"))
             }
 
+
             if (includedPrincipal === 1) {
                 // console.log("in")
 
-                db.query(checkQuota, [userId], (err, data) => {
+                db.query(queryCurrentRate, (err, data) => {
                     if (err) {
-                        console.log("error while checking quota", err)
-                        return db.rollback(() => res.status(500).json("internal error"))
+                        console.log("error while query curreny rate:", err)
                     }
 
-                    const quota = data[0].wallet_remaining
+                    const rate = data[0].currency_rate
 
-                    if (quota <= 0) {
-                        console.log("error quota limit exceeded")
-                        return db.rollback(() => res.status(403).json("Withdraw quota not enough"))
-                    }
-
-                    db.query(updateQuota, [userId], (err, data) => {
+                    db.query(checkQuota, [userId], (err, data) => {
                         if (err) {
-                            console.log("error while updating quota:", err)
+                            console.log("error while checking quota", err)
                             return db.rollback(() => res.status(500).json("internal error"))
                         }
-
-                        db.query(queryAddress, [userId], (err, data) => {
+    
+                        const quota = data[0].wallet_remaining
+    
+                        if (quota <= 0) {
+                            console.log("error quota limit exceeded")
+                            return db.rollback(() => res.status(403).json("Withdraw quota not enough"))
+                        }
+    
+                        db.query(updateQuota, [userId], (err, data) => {
                             if (err) {
-                                console.log("error while querying address:", err)
+                                console.log("error while updating quota:", err)
                                 return db.rollback(() => res.status(500).json("internal error"))
                             }
-
-                            const addressData = data[0].UCW_address
-                            const chain = data[0].UCW_chain
-                            const principal = data[0].wallet_principal
-                            const profit = data[0].wallet_profit
-
-                            const totalPrincipal = sanAmount - profit
-                            const totalProfit = sanAmount - totalPrincipal
-                            console.log("totalprofit is:", totalProfit)
-                            // const totalUserHave =  
-
-                            db.query(checkUserQuery, [userId], (err,data) => {
+    
+                            db.query(queryAddress, [userId], (err, data) => {
                                 if (err) {
-                                    console.log("error while checking user:", err)
+                                    console.log("error while querying address:", err)
                                     return db.rollback(() => res.status(500).json("internal error"))
                                 }
-
-                                const userClass = data[0].users_class
-
-                                db.query(checkComDistributed, [userId], (err, data) => {
+    
+                                const addressData = data[0].UCW_address
+                                const chain = data[0].UCW_chain
+                                const principal = data[0].wallet_principal
+                                const profit = data[0].wallet_profit
+    
+                                const totalPrincipal = sanAmount - profit
+                                const totalProfit = sanAmount - totalPrincipal
+                                console.log("totalprofit is:", totalProfit)
+                                // const totalUserHave =  
+    
+                                db.query(checkUserQuery, [userId], (err,data) => {
                                     if (err) {
-                                        console.log("error while distributing:", err)
+                                        console.log("error while checking user:", err)
                                         return db.rollback(() => res.status(500).json("internal error"))
                                     }
-
-                                    const userDistributed = data[0]
-                                    const userHavePercentage = userDistributed.PartnerSharePercentage
-                                    const companyPercentage = userDistributed.CompanySharePercentage
-
-                                    let totalReferrerShare = 0;
-
-                                    db.query(queryCommission, [userId], (err, data) => {
+    
+                                    const userClass = data[0].users_class
+    
+                                    db.query(checkComDistributed, [userId], (err, data) => {
                                         if (err) {
-                                            console.log("error while query commission:", err)
+                                            console.log("error while distributing:", err)
                                             return db.rollback(() => res.status(500).json("internal error"))
                                         }
-
-                                        const referers = data
-
-                                        const referrerShares = referers.map(ref => {
-                                            const share = sanAmount * (ref[`Level${ref.level}Commission`] / 100)
-                                            totalReferrerShare += share
-
-                                            return {
-                                                referrerId: ref.referrerID,
-                                                commission: share,
-                                                level: ref.level
-                                            }
-                                        })
-
-                                        db.query(freezeQuery, [sanAmount, sanAmount,sanAmount, totalProfit, userId], (err, data) => {
+    
+                                        const userDistributed = data[0]
+                                        const userHavePercentage = userDistributed.PartnerSharePercentage
+                                        const companyPercentage = userDistributed.CompanySharePercentage
+    
+                                        let totalReferrerShare = 0;
+    
+                                        db.query(queryCommission, [userId], (err, data) => {
                                             if (err) {
-                                                console.log("error while freeze for waiting transfer:", err)
+                                                console.log("error while query commission:", err)
                                                 return db.rollback(() => res.status(500).json("internal error"))
                                             }
-
-                                            const totalPartnerShareOnlyProfit = profit * (userHavePercentage / 100)
-                                            const CompanyShare = profit * (companyPercentage / 100)
-                                            const totalCompanyShare = CompanyShare - totalReferrerShare
-
-                                            db.query(CheckIsExists, [tranId], (err, data) => {
+    
+                                            const referers = data
+    
+                                            const referrerShares = referers.map(ref => {
+                                                const share = sanAmount * (ref[`Level${ref.level}Commission`] / 100)
+                                                totalReferrerShare += share
+    
+                                                return {
+                                                    referrerId: ref.referrerID,
+                                                    commission: share,
+                                                    level: ref.level
+                                                }
+                                            })
+    
+                                            db.query(freezeQuery, [sanAmount, sanAmount,sanAmount, totalProfit, userId], (err, data) => {
                                                 if (err) {
+                                                    console.log("error while freeze for waiting transfer:", err)
                                                     return db.rollback(() => res.status(500).json("internal error"))
                                                 }
-                
-                                                const count = data[0].count
-                
-                                                if (count === 0) {
-
-                                                    if (includedPrincipal === 1 && profit > 0) {
-                                                        const insertValues = [
-                                                            tranId,
-                                                            addressData,
-                                                            sanAmount,
-                                                            "ThaiBath",
-                                                            userId,
-                                                            "BATH",
-                                                            totalPartnerShareOnlyProfit + totalPrincipal,
-                                                            sanAmount,
-                                                            "bank_withdraw",
-                                                            1,
-                                                            "",
-                                                            addressData
-                                                        ]
     
+                                                const totalPartnerShareOnlyProfit = profit * (userHavePercentage / 100)
+                                                const CompanyShare = profit * (companyPercentage / 100)
+                                                const totalCompanyShare = CompanyShare - totalReferrerShare
     
-                                                        db.query(insertWithdrawRequestBoth, [insertValues], (err, data) => {
-                                                            if (err) {
-                                                                console.log("error while inserting data to all_transactions both:", err)
-                                                                return db.rollback(() => res.status(500).json("internal error"))
-                                                            }
-
-
-                                                        })
-                                                    } else if (includedPrincipal === 1 && profit === 0) {
-
-                                                        const insertValues = [
-                                                            tranId,
-                                                            addressData,
-                                                            sanAmount,
-                                                            "ThaiBath",
-                                                            userId,
-                                                            "BATH",
-                                                            totalPartnerShareOnlyProfit + totalPrincipal,
-                                                            sanAmount,
-                                                            "bank_withdraw",
-                                                            1,
-                                                            "",
-                                                            addressData
-                                                        ]
-    
-    
-                                                        db.query(insertWithdrawRequest, [insertValues], (err, data) => {
-                                                            if (err) {
-                                                                console.log("error while inserting data to all_transactions onlyprincipal:", err)
-                                                                return db.rollback(() => res.status(500).json("internal error"))
-                                                            }
-
-                                                        })
-                                                    } else {
-                                                        const insertValues = [
-                                                            tranId,
-                                                            addressData,
-                                                            sanAmount,
-                                                            "ThaiBath",
-                                                            userId,
-                                                            "BATH",
-                                                            totalPartnerShareOnlyProfit + totalPrincipal,
-                                                            sanAmount,
-                                                            "bank_withdraw",
-                                                            1,
-                                                            "",
-                                                            addressData
-                                                        ]
-    
-    
-                                                        db.query(insertWithdrawRequestProfit, [insertValues], (err, data) => {
-                                                            if (err) {
-                                                                console.log("error while inserting data to all_transactions onlyProfit:", err)
-                                                                return db.rollback(() => res.status(500).json("internal error"))
-                                                            }
-
-                                                        })
+                                                db.query(CheckIsExists, [tranId], (err, data) => {
+                                                    if (err) {
+                                                        return db.rollback(() => res.status(500).json("internal error"))
                                                     }
-                
-                                                    // const insertValues = [
-                                                    //     tranId,
-                                                    //     addressData,
-                                                    //     sanAmount,
-                                                    //     "TetherToken",
-                                                    //     userId,
-                                                    //     "USDT",
-                                                    //     totalPartnerShareOnlyProfit + totalPrincipal,
-                                                    //     sanAmount,
-                                                    //     "crypto_withdraw",
-                                                    //     1,
-                                                    //     "BEP-20",
-                                                    //     addressData
-                                                    // ]
-
-                                                    // db.query(insertWithdrawRequestBoth, [insertValues], (err, data) => {
-                                                    //     if (err) {
-                                                    //         console.log("error while inserting data to all_transactions onlyProfit:", err)
-                                                    //         return db.rollback(() => res.status(500).json("internal error"))
-                                                    //     }
-
+                    
+                                                    const count = data[0].count
+                    
+                                                    if (count === 0) {
+    
+                                                        if (includedPrincipal === 1 && profit > 0) {
+                                                            const insertValues = [
+                                                                tranId,
+                                                                addressData,
+                                                                sanAmount,
+                                                                "ThaiBath",
+                                                                userId,
+                                                                "BATH",
+                                                                sanUserHave,
+                                                                sanAmount,
+                                                                "bank_withdraw",
+                                                                1,
+                                                                "",
+                                                                addressData
+                                                            ]
+        
+        
+                                                            db.query(insertWithdrawRequestBoth, [insertValues], (err, data) => {
+                                                                if (err) {
+                                                                    console.log("error while inserting data to all_transactions both:", err)
+                                                                    return db.rollback(() => res.status(500).json("internal error"))
+                                                                }
+    
+    
+                                                            })
+                                                        } else if (includedPrincipal === 1 && profit === 0) {
+    
+                                                            const insertValues = [
+                                                                tranId,
+                                                                addressData,
+                                                                sanAmount,
+                                                                "ThaiBath",
+                                                                userId,
+                                                                "BATH",
+                                                                sanUserHave,
+                                                                sanAmount,
+                                                                "bank_withdraw",
+                                                                1,
+                                                                "",
+                                                                addressData
+                                                            ]
+        
+        
+                                                            db.query(insertWithdrawRequest, [insertValues], (err, data) => {
+                                                                if (err) {
+                                                                    console.log("error while inserting data to all_transactions onlyprincipal:", err)
+                                                                    return db.rollback(() => res.status(500).json("internal error"))
+                                                                }
+    
+                                                            })
+                                                        } else {
+                                                            const insertValues = [
+                                                                tranId,
+                                                                addressData,
+                                                                sanAmount,
+                                                                "ThaiBath",
+                                                                userId,
+                                                                "BATH",
+                                                                sanUserHave,
+                                                                sanAmount,
+                                                                "bank_withdraw",
+                                                                1,
+                                                                "",
+                                                                addressData
+                                                            ]
+        
+        
+                                                            db.query(insertWithdrawRequestProfit, [insertValues], (err, data) => {
+                                                                if (err) {
+                                                                    console.log("error while inserting data to all_transactions onlyProfit:", err)
+                                                                    return db.rollback(() => res.status(500).json("internal error"))
+                                                                }
+    
+                                                            })
+                                                        }
+    
                                                         db.query(checkTransactionsExists, [tranId], (err, data) => {
-                                                            if (err) {
-                                                                console.log("error while checking transactions:", err)
-                                                                return db.rollback(() => res.status(500).json("internal error"))
-                                                            }
-                                                            console.log(data)
-
-                                                            const transactionsData = data[0].count
-
-
-                                                            if (transactionsData === 0) {
-
-                                                                if (profit <= 0) {
-                                                                    const principalInsert = {
-                                                                        PartnerID: userId,
-                                                                        Amount: totalPrincipal,
-                                                                        class: userClass,
-                                                                        transection_user_have: totalPrincipal,
-                                                                        transection_status: "pending",
-                                                                        transection_admin_verified: 0,
-                                                                        transection_ceo_verified: 0,
-                                                                        transection_is_principal: 1,
-                                                                        transection_type: "withdraw",
-                                                                        transection_tsx_id: tranId
-                                                                    }
-
-                                                                    db.query(insertQuery, principalInsert, (err, data) => {
-                                                                        if (err) {
-                                                                            console.log("error while insert principal:", err)
-                                                                            return db.rollback(() => res.status(500).json("internal error"))
-                                                                        }
-
-                                                                        db.commit(err => {
-                                                                            if (err) {
-                                                                                console.log("error while commit all:", err)
-                                                                                return db.rollback(() => res.status(500).json("internal error"))
-                                                                            }
-
-
-                                                                            return res.status(200).json("Make withdraw request success")
-                                                                        })
-                                                                    })
-                                                                } else {
-
-                                                                    const transactionValues = {
-                                                                        PartnerID: userId,
-                                                                        Amount: totalProfit,
-                                                                        class: userClass,
-                                                                        partner_share: totalPartnerShareOnlyProfit,
-                                                                        company_share: totalCompanyShare,
-                                                                        referer_share: totalReferrerShare,
-                                                                        Referrer_one_ID: referrerShares[0]?.referrerId || null,
-                                                                        referer_one_commission: referrerShares[0]?.commission || null,
-                                                                        Referrer_two_ID: referrerShares[1]?.referrerId || null,
-                                                                        referer_two_commission: referrerShares[1]?.commission || null,
-                                                                        Referrer_three_ID: referrerShares[2]?.referrerId || null,
-                                                                        referer_three_commission: referrerShares[2]?.commission || null,
-                                                                        transection_user_have: totalPartnerShareOnlyProfit,
-                                                                        transection_status: "pending",
-                                                                        transection_admin_verified: 0,
-                                                                        transection_ceo_verified: 0,
-                                                                        transection_type: "withdraw",
-                                                                        transection_tsx_id: tranId,
-                                                                        transection_is_profit: 1
-                                                                    }
+                                                                if (err) {
+                                                                    console.log("error while checking transactions:", err)
+                                                                    return db.rollback(() => res.status(500).json("internal error"))
+                                                                }
+                                                                console.log(data)
+    
+                                                                const transactionsData = data[0].count
     
     
+                                                                if (transactionsData === 0) {
     
-                                                                    db.query(insertQuery, transactionValues, (err, data) => {
-                                                                        if (err) {
-                                                                            console.log("error while insert transactions:", err)
-                                                                            return db.rollback(() => res.status(500).json("internal error"))
-                                                                        }
-    
+                                                                    if (profit <= 0) {
                                                                         const principalInsert = {
                                                                             PartnerID: userId,
                                                                             Amount: totalPrincipal,
                                                                             class: userClass,
-                                                                            transection_user_have: totalPrincipal,
+                                                                            transection_user_have: sanUserHave,
                                                                             transection_status: "pending",
                                                                             transection_admin_verified: 0,
                                                                             transection_ceo_verified: 0,
@@ -434,201 +391,276 @@ export const withdrawRequest = (req, res) => {
                                                                                 return res.status(200).json("Make withdraw request success")
                                                                             })
                                                                         })
-                                                                    })
-                                                                }
+                                                                    } else {
 
-                                                            }
-                                                        })
-                                                    // })
-                                                }
+                                                                        const bathProfit = (20 * (60 / 100)) * 30
+                                                                        const bathPrincipal = (amount - profit) * rate
+    
+                                                                        const transactionValues = {
+                                                                            PartnerID: userId,
+                                                                            Amount: totalProfit,
+                                                                            class: userClass,
+                                                                            partner_share: totalPartnerShareOnlyProfit,
+                                                                            company_share: totalCompanyShare,
+                                                                            referer_share: totalReferrerShare,
+                                                                            Referrer_one_ID: referrerShares[0]?.referrerId || null,
+                                                                            referer_one_commission: referrerShares[0]?.commission || null,
+                                                                            Referrer_two_ID: referrerShares[1]?.referrerId || null,
+                                                                            referer_two_commission: referrerShares[1]?.commission || null,
+                                                                            Referrer_three_ID: referrerShares[2]?.referrerId || null,
+                                                                            referer_three_commission: referrerShares[2]?.commission || null,
+                                                                            transection_user_have: bathProfit,
+                                                                            transection_status: "pending",
+                                                                            transection_admin_verified: 0,
+                                                                            transection_ceo_verified: 0,
+                                                                            transection_type: "withdraw",
+                                                                            transection_tsx_id: tranId,
+                                                                            transection_is_profit: 1
+                                                                        }
+        
+        
+        
+                                                                        db.query(insertQuery, transactionValues, (err, data) => {
+                                                                            if (err) {
+                                                                                console.log("error while insert transactions:", err)
+                                                                                return db.rollback(() => res.status(500).json("internal error"))
+                                                                            }
+        
+                                                                            const principalInsert = {
+                                                                                PartnerID: userId,
+                                                                                Amount: totalPrincipal,
+                                                                                class: userClass,
+                                                                                transection_user_have: bathPrincipal,
+                                                                                transection_status: "pending",
+                                                                                transection_admin_verified: 0,
+                                                                                transection_ceo_verified: 0,
+                                                                                transection_is_principal: 1,
+                                                                                transection_type: "withdraw",
+                                                                                transection_tsx_id: tranId
+                                                                            }
+        
+                                                                            db.query(insertQuery, principalInsert, (err, data) => {
+                                                                                if (err) {
+                                                                                    console.log("error while insert principal:", err)
+                                                                                    return db.rollback(() => res.status(500).json("internal error"))
+                                                                                }
+        
+                                                                                db.commit(err => {
+                                                                                    if (err) {
+                                                                                        console.log("error while commit all:", err)
+                                                                                        return db.rollback(() => res.status(500).json("internal error"))
+                                                                                    }
+        
+        
+                                                                                    return res.status(200).json("Make withdraw request success")
+                                                                                })
+                                                                            })
+                                                                        })
+                                                                    }
+    
+                                                                }
+                                                            })
+                                                        // })
+                                                    }
+                                                })
                                             })
                                         })
                                     })
                                 })
+    
+    
                             })
-
-
                         })
                     })
                 })
+
 
             } else {
 
                 // console.log("not")
-                db.query(checkQuota, [userId], (err, data) => {
+                db.query(queryCurrentRate, (err, data) => {
                     if (err) {
-                        console.log("error while checking quota", err)
-                        return db.rollback(() => res.status(500).json("internal error"))
+                        console.log("error while query curreny rate:", err)
                     }
 
-                    const quota = data[0].wallet_remaining
+                    const rate = data[0].currency_rate
 
-                    if (quota <= 0) {
-                        console.log("error quota limit exceeded")
-                        return db.rollback(() => res.status(403).json("Withdraw quota not enough"))
-                    }
-
-                    db.query(updateQuota, [userId], (err, data) => {
+                    db.query(checkQuota, [userId], (err, data) => {
                         if (err) {
-                            console.log("error while updating quota:", err)
+                            console.log("error while checking quota", err)
                             return db.rollback(() => res.status(500).json("internal error"))
                         }
-
-                        db.query(queryAddress, [userId], (err, data) => {
+    
+                        const quota = data[0].wallet_remaining
+    
+                        if (quota <= 0) {
+                            console.log("error quota limit exceeded")
+                            return db.rollback(() => res.status(403).json("Withdraw quota not enough"))
+                        }
+    
+                        db.query(updateQuota, [userId], (err, data) => {
                             if (err) {
-                                console.log("error while querying address:", err)
+                                console.log("error while updating quota:", err)
                                 return db.rollback(() => res.status(500).json("internal error"))
                             }
-
-                            const addressData = data[0].UCW_address
-                            const chain = data[0].UCW_chain
-                            const principal = data[0].wallet_principal
-                            const profit = data[0].wallet_profit
-
-                            // const totalPrincipal = sanAmount - profit
-                            // const totalUserHave =  
-
-                            db.query(checkUserQuery, [userId], (err,data) => {
+    
+                            db.query(queryAddress, [userId], (err, data) => {
                                 if (err) {
-                                    console.log("error while checking user:", err)
+                                    console.log("error while querying address:", err)
                                     return db.rollback(() => res.status(500).json("internal error"))
                                 }
-
-                                const userClass = data[0].users_class
-
-                                db.query(checkComDistributed, [userId], (err, data) => {
+    
+                                const addressData = data[0].UCW_address
+                                const chain = data[0].UCW_chain
+                                const principal = data[0].wallet_principal
+                                const profit = data[0].wallet_profit
+    
+                                // const totalPrincipal = sanAmount - profit
+                                // const totalUserHave =  
+    
+                                db.query(checkUserQuery, [userId], (err,data) => {
                                     if (err) {
-                                        console.log("error while distributing:", err)
+                                        console.log("error while checking user:", err)
                                         return db.rollback(() => res.status(500).json("internal error"))
                                     }
-
-                                    const userDistributed = data[0]
-                                    const userHavePercentage = userDistributed.PartnerSharePercentage
-                                    const companyPercentage = userDistributed.CompanySharePercentage
-
-                                    let totalReferrerShare = 0;
-
-                                    db.query(queryCommission, [userId], (err, data) => {
+    
+                                    const userClass = data[0].users_class
+    
+                                    db.query(checkComDistributed, [userId], (err, data) => {
                                         if (err) {
-                                            console.log("error while query commission:", err)
+                                            console.log("error while distributing:", err)
                                             return db.rollback(() => res.status(500).json("internal error"))
                                         }
-
-                                        const referers = data
-
-                                        const referrerShares = referers.map(ref => {
-                                            const share = sanAmount * (ref[`Level${ref.level}Commission`] / 100)
-                                            totalReferrerShare += share
-
-                                            return {
-                                                referrerId: ref.referrerID,
-                                                commission: share,
-                                                level: ref.level
-                                            }
-                                        })
-
-                                        db.query(freezeQuery, [sanAmount, sanAmount, sanAmount,sanAmount, userId], (err, data) => {
+    
+                                        const userDistributed = data[0]
+                                        const userHavePercentage = userDistributed.PartnerSharePercentage
+                                        const companyPercentage = userDistributed.CompanySharePercentage
+    
+                                        let totalReferrerShare = 0;
+    
+                                        db.query(queryCommission, [userId], (err, data) => {
                                             if (err) {
-                                                console.log("error while freeze for waiting transfer:", err)
+                                                console.log("error while query commission:", err)
                                                 return db.rollback(() => res.status(500).json("internal error"))
                                             }
-
-                                            const totalPartnerShareOnlyProfit = sanAmount * (userHavePercentage / 100)
-                                            const CompanyShare = sanAmount * (companyPercentage / 100)
-                                            const totalCompanyShare = CompanyShare - totalReferrerShare
-
-                                            db.query(CheckIsExists, [tranId], (err, data) => {
+    
+                                            const referers = data
+    
+                                            const referrerShares = referers.map(ref => {
+                                                const share = sanAmount * (ref[`Level${ref.level}Commission`] / 100)
+                                                totalReferrerShare += share
+    
+                                                return {
+                                                    referrerId: ref.referrerID,
+                                                    commission: share,
+                                                    level: ref.level
+                                                }
+                                            })
+    
+                                            db.query(freezeQuery, [sanAmount, sanAmount, sanAmount,sanAmount, userId], (err, data) => {
                                                 if (err) {
+                                                    console.log("error while freeze for waiting transfer:", err)
                                                     return db.rollback(() => res.status(500).json("internal error"))
                                                 }
-                
-                                                const count = data[0].count
-                
-                                                if (count === 0) {
-                
-                                                    const insertValues = [
-                                                        tranId,
-                                                        addressData,
-                                                        sanAmount,
-                                                        "ThaiBath",
-                                                        userId,
-                                                        "BATH",
-                                                        totalPartnerShareOnlyProfit,
-                                                        sanAmount,
-                                                        "bank_withdraw",
-                                                        1,
-                                                        "",
-                                                        addressData
-                                                    ]
-
-                                                    db.query(insertWithdrawRequestProfit, [insertValues], (err, data) => {{
-                                                        if (err) {
-                                                            console.log("error while inserting data to all_transactions:", err)
-                                                            return db.rollback(() => res.status(500).json("internal error"))
-                                                        }
-
-                                                        db.query(checkTransactionsExists, [tranId], (err, data) => {
+    
+                                                const totalPartnerShareOnlyProfit = sanAmount * (userHavePercentage / 100)
+                                                const CompanyShare = sanAmount * (companyPercentage / 100)
+                                                const totalCompanyShare = CompanyShare - totalReferrerShare
+    
+                                                db.query(CheckIsExists, [tranId], (err, data) => {
+                                                    if (err) {
+                                                        return db.rollback(() => res.status(500).json("internal error"))
+                                                    }
+                    
+                                                    const count = data[0].count
+                    
+                                                    if (count === 0) {
+                    
+                                                        const insertValues = [
+                                                            tranId,
+                                                            addressData,
+                                                            sanAmount,
+                                                            "ThaiBath",
+                                                            userId,
+                                                            "BATH",
+                                                            sanUserHave,
+                                                            sanAmount,
+                                                            "bank_withdraw",
+                                                            1,
+                                                            "",
+                                                            addressData
+                                                        ]
+    
+                                                        db.query(insertWithdrawRequestProfit, [insertValues], (err, data) => {{
                                                             if (err) {
-                                                                console.log("error while checking transactions:", err)
+                                                                console.log("error while inserting data to all_transactions:", err)
                                                                 return db.rollback(() => res.status(500).json("internal error"))
                                                             }
-
-                                                            const transactionsData = data[0].count
-                                                            // console.log(transactionsData)
-
-                                                            if (transactionsData === 0) {
-
-                                                                const transactionValues = {
-                                                                    PartnerID: userId,
-                                                                    Amount: sanAmount,
-                                                                    class: userClass,
-                                                                    partner_share: totalPartnerShareOnlyProfit,
-                                                                    company_share: totalCompanyShare,
-                                                                    referer_share: totalReferrerShare,
-                                                                    Referrer_one_ID: referrerShares[0]?.referrerId || null,
-                                                                    referer_one_commission: referrerShares[0]?.commission || null,
-                                                                    Referrer_two_ID: referrerShares[1]?.referrerId || null,
-                                                                    referer_two_commission: referrerShares[1]?.commission || null,
-                                                                    Referrer_three_ID: referrerShares[2]?.referrerId || null,
-                                                                    referer_three_commission: referrerShares[2]?.commission || null,
-                                                                    transection_user_have: totalPartnerShareOnlyProfit,
-                                                                    transection_status: "pending",
-                                                                    transection_admin_verified: 0,
-                                                                    transection_ceo_verified: 0,
-                                                                    transection_type: "withdraw",
-                                                                    transection_tsx_id: tranId,
-                                                                    transection_is_profit: 1
+    
+                                                            db.query(checkTransactionsExists, [tranId], (err, data) => {
+                                                                if (err) {
+                                                                    console.log("error while checking transactions:", err)
+                                                                    return db.rollback(() => res.status(500).json("internal error"))
                                                                 }
-
-                                                                db.query(insertQuery, transactionValues, (err, data) => {
-                                                                    if (err) {
-                                                                        console.log("error while insert transactions:", err)
-                                                                        return db.rollback(() => res.status(500).json("internal error"))
+    
+                                                                const transactionsData = data[0].count
+                                                                // console.log(transactionsData)
+    
+                                                                if (transactionsData === 0) {
+    
+                                                                    const transactionValues = {
+                                                                        PartnerID: userId,
+                                                                        Amount: sanAmount,
+                                                                        class: userClass,
+                                                                        partner_share: totalPartnerShareOnlyProfit,
+                                                                        company_share: totalCompanyShare,
+                                                                        referer_share: totalReferrerShare,
+                                                                        Referrer_one_ID: referrerShares[0]?.referrerId || null,
+                                                                        referer_one_commission: referrerShares[0]?.commission || null,
+                                                                        Referrer_two_ID: referrerShares[1]?.referrerId || null,
+                                                                        referer_two_commission: referrerShares[1]?.commission || null,
+                                                                        Referrer_three_ID: referrerShares[2]?.referrerId || null,
+                                                                        referer_three_commission: referrerShares[2]?.commission || null,
+                                                                        transection_user_have: sanUserHave,
+                                                                        transection_status: "pending",
+                                                                        transection_admin_verified: 0,
+                                                                        transection_ceo_verified: 0,
+                                                                        transection_type: "withdraw",
+                                                                        transection_tsx_id: tranId,
+                                                                        transection_is_profit: 1
                                                                     }
-
-                                                                    db.commit(err => {
+    
+                                                                    db.query(insertQuery, transactionValues, (err, data) => {
                                                                         if (err) {
-                                                                            console.log("error while commit transactions:", err)
+                                                                            console.log("error while insert transactions:", err)
                                                                             return db.rollback(() => res.status(500).json("internal error"))
                                                                         }
-
-                                                                        return res.status(200).json("Make withdraw request success")
+    
+                                                                        db.commit(err => {
+                                                                            if (err) {
+                                                                                console.log("error while commit transactions:", err)
+                                                                                return db.rollback(() => res.status(500).json("internal error"))
+                                                                            }
+    
+                                                                            return res.status(200).json("Make withdraw request success")
+                                                                        })
                                                                     })
-                                                                })
-                                                            }
-                                                        })
-                                                    }})
-                                                }
+                                                                }
+                                                            })
+                                                        }})
+                                                    }
+                                                })
                                             })
                                         })
                                     })
                                 })
+    
+    
                             })
-
-
                         })
                     })
                 })
+
             }
 
         })

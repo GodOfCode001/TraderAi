@@ -232,10 +232,9 @@ const Withdraw = () => {
           <div className="balance">
             <div className="balance-header">
               <div className="left">
-                {" "}
                 <div className="img">
                   <img src="assets/coin/usdt.png" alt="" />
-                </div>{" "}
+                </div>
                 USDT
               </div>
               <div className="right">{t("withdraw-teach")} &gt; </div>

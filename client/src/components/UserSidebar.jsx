@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 
 const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
     const { t } = useTranslation();
-
     const { currentUser, logout } = useContext(AuthContext)
 
   return (
@@ -19,9 +18,9 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
         </div>
         <div className={`user-sidebar-container ${isOpen ? '' : 'closed'}`}>
 
-        <div className="tier-logo" onClick={() => onNavigate('main')}>
-            <img src={`assets/rank-logo/${currentUser?.users_class}.png`} alt="" />
-        </div>
+        <Link className="tier-logo" to="/userinfo/?p=mainscreen">
+            <img src={`/assets/rank-logo/${currentUser?.users_class}.png`} alt="" />
+        </Link>
 
         <div className="user-info">
             <div className="info-1">
@@ -42,7 +41,7 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
                 <div className="info-header"> {t("referral-code")} </div>
                 <div> {currentUser?.users_referral_code} </div>
             </div>
-            <button className='edit-profile-btn' onClick={() => onNavigate('edit-profile')}> {t("edit-profile")} </button>
+            <Link className='edit-profile-btn link' to="/userinfo/?p=edit-profile"> {t("edit-profile")} </Link>
         </div>
 
         <div className="pages-buttons">
@@ -51,10 +50,10 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
           <Link className='link-button link' to="/userinfo/?p=transaction">Transactions history</Link>
             <Link 
               className='link-button link'
-              to="userinfo/?p=commission">
+              to="/userinfo/?p=commission">
               Commission
             </Link>
-            <Link className='link-button link' to="/userinfo/?faq-policy">FAQ / Policy</Link>
+            <Link className='link-button link' to="/userinfo/?p=faq-policy">FAQ / Policy</Link>
             {/* <button className='link-button'>Link or button6</button> */}
             <button className='link-button link' onClick={() => logout()}>Logout</button>
         </div>
