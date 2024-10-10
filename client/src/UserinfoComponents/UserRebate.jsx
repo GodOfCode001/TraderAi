@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './userRebate.css'
 import { AuthContext } from '../context/AuthContext'
+import axios from 'axios'
 
 const UserRebate = () => {
-  const { currentUser, WEB_URL } = useContext(AuthContext)
+  const { currentUser, WEB_URL,backend } = useContext(AuthContext)
+  const [rebate, setRebate] = useState([])
 
   const inviteCode = currentUser?.users_referral_code || null
   const inviteLink = WEB_URL + "/register" + "/?ref=" + inviteCode
@@ -58,6 +60,21 @@ const UserRebate = () => {
     }, 500); // Show for 2 seconds before fading out // Hide after 2 seconds
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${backend}/api/rebate`, {
+          withCredentials: true
+        })
+        console.log(res.data[0])
+        setRebate(res.data[0])
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className='user-rebate'>
       <div className="user-rebate-container">
@@ -67,20 +84,20 @@ const UserRebate = () => {
             <div className="left-header">Rank Details</div>
             <div className="one">
               <p>ขั้นที่ 1 :</p>
-              <p> 3% </p>
+              <p> {rebate.Level1Commission}% </p>
             </div>
             <div className="two">
             <p>ขั้นที่ 2 :</p>
-            <p> 2% </p>
+            <p> {rebate.Level2Commission}% </p>
             </div>
             <div className="three">
             <p>ขั้นที่ 3 :</p>
-            <p> 1% </p>
+            <p> {rebate.Level3Commission}% </p>
             </div>
 
             <div className="total">
               <p>ทั้งหมด</p>
-              <p>150 USDT</p> 
+              <p>{rebate.wallet_main_wallet} USDT</p> 
             </div>
           </div>
 
@@ -109,36 +126,36 @@ const UserRebate = () => {
           <div className="boxes">
             <div className="top-box">
               <p>My reabte class</p>
-              <p style={{textTransform: "uppercase"}}> # {currentUser?.users_class ? currentUser.users_class : null} </p>
+              <p style={{textTransform: "uppercase"}}> # <span className='rank-name' style={{background: `var(--${currentUser?.users_class})`, color: "transparent", backgroundClip: "text", textTransform: 'uppercase', fontWeight: "bold"}}>{currentUser?.users_class ? currentUser.users_class : null} </span> </p>
             </div>
 
             <div className="bototm-box">
             <p>My basic rebate rate</p>
-            <p># {} </p>
+            <p># <span className='user-get'>{rebate.PartnerSharePercentage}</span> : <span>{rebate.CompanySharePercentage}</span> </p>
             </div>
           </div>
 
           <div className="boxes">
             <div className="top-box">
               <p>My reabte rate</p>
-              <p>#</p>
+              <p># <span className='user-get'>{rebate.PartnerSharePercentage}</span> : <span>{rebate.CompanySharePercentage}</span></p>
             </div>
 
             <div className="bototm-box">
             <p>Next basic rebate rate</p>
-            <p>#</p>
+            <p># <span className='user-get'>{rebate.PartnerSharePercentage + 5}</span> : <span>{rebate.CompanySharePercentage -5 }</span></p>
             </div>
           </div>
 
           <div className="boxes">
             <div className="top-box">
               <p>Registered</p>
-              <p>#</p>
+              <p># {rebate.registeredCount}</p>
             </div>
 
             <div className="bototm-box">
             <p>Total invited amount</p>
-            <p>#</p>
+            <p># {rebate.registeredCount}</p>
             </div>
           </div>
 
@@ -150,7 +167,7 @@ const UserRebate = () => {
 
             <div className="bototm-box">
             <p>Withdraw Volume</p>
-            <p>#</p>
+            <p># {rebate.total_team_withdrawals} USDT </p>
             </div>
           </div>
 

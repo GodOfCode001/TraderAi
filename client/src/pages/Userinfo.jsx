@@ -18,7 +18,6 @@ const Userinfo = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const page = searchParams.get('p')
-  console.log(page)
 
 
   const handleNavigation = (page) => {

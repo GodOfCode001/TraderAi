@@ -24,6 +24,8 @@ import depositBankRoutes from './Routes/depositBank.js'
 import userEditRoutes from './Routes/userEdit.js'
 import userWalletRoutes from './Routes/userWallet.js'
 import currencyRoutes from './Routes/currency.js'
+import transactionHistoryRoutes from './Routes/transactionHistory.js'
+import rebateRoutes from './Routes/rebate.js'
 import { db } from './db.js'
 import axios from 'axios'
 import { coin } from './schedule/coin.js'
@@ -70,6 +72,8 @@ app.use('/api/deposit-bank', depositBankRoutes)
 app.use('/api/user', userEditRoutes)
 app.use('/api/user-wallet', userWalletRoutes)
 app.use('/api/currency', currencyRoutes)
+app.use('/api/transaction-history', transactionHistoryRoutes)
+app.use('/api/rebate', rebateRoutes)
 
 const setCoin = coin();
 const queryWallet = botWalletQuery();

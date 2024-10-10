@@ -19,6 +19,7 @@
     gap: 20px;
     border-radius: 12px;
     height: 620px;
+    position: relative;
 }
 
 .transaction-container .deposit-details .details-header {
@@ -92,4 +93,36 @@
   }
   .transaction-container  .deposit-details .table-status-yellow {
     color: var(--yellow);
+  }
+
+
+  .transaction-container .deposit-details .pagination-controls {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+
+  .transaction-container .deposit-details .pagination-controls button {
+    background-color: var(--black);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--black);
+  }
+  .transaction-container .deposit-details .pagination-controls button:hover {
+    cursor: pointer;
+  }
+  .transaction-container .deposit-details .pagination-controls button:disabled {
+    background-color: var(--border);
+    border: 1px solid var(--border);
+    cursor: not-allowed;
+  }
+
+  .transaction-container .deposit-details .pagination-controls span {
+    align-content: center;
   }

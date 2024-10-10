@@ -139,3 +139,23 @@
     gap: 100px;
     /* font-weight: bold; */
 }
+.user-rebate-container .bottom .boxes .rank-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.user-rebate-container .bottom .boxes p {
+    display: flex;
+    gap: 6px;
+}
+
+.user-rebate-container .bottom .boxes .user-get {
+    text-transform: uppercase;
+    background-color: var(--black);
+    color: rgb(0, 196, 0);
+    width: 40px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}

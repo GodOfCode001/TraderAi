@@ -30,7 +30,7 @@ const UserSidebar = ({ onNavigate, isOpen, toggleSidebar }) => {
 
             <div className="info-1">
                 <div className='info-header'>{t("class")}</div>
-                <div style={{textTransform: "uppercase"}}> # {currentUser?.users_class} </div>
+                <div style={{background: `var(--${currentUser?.users_class})`, color: "transparent", backgroundClip: "text", textTransform: 'uppercase', fontWeight: "bold"}}> # {currentUser?.users_class} </div>
             </div>
 
             <div className="info-1">
