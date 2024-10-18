@@ -78,9 +78,37 @@ export const getWallet = (req, res) => {
             return res.status(200).json(data)
         })
     })
-
 }
 
+export const queryMainWallet = (req, res) => {
+    const token = req.cookies.access_token
+
+    if (!token) return res.status(401).json("NOTOK")
+
+    jwt.verify(token, process.env.TOKEN_KEY, (err, data) => {
+        if (err) {
+            console.log("token error")
+            return res.status(403).json("token error")
+        }
+
+        const userId = data.id
+
+        const query = `SELECT u.wallet_main_wallet, cr.currency_rate
+                        FROM wallet u
+                        LEFT JOIN currency_rate cr ON cr.currency_name = 'D2B'
+                        WHERE u.wallet_users_id = ?;`
+
+        db.query(query, [userId], (err, data) => {
+            if (err) {
+                console.log("error while query user main wallet:", err)
+                return res.status(500).json("internal error")
+            }
+
+            return res.status(200).json(data)
+        })
+    })
+}
+ 
 export const withdrawRequest = (req, res) => {
     const token = req.cookies.access_token;
     const { amount, userHave, includedPrincipal } = req.body

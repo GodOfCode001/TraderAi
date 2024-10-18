@@ -31,6 +31,10 @@ import { AuthContext } from './context/AuthContext'
 import IsLoading from './components/IsLoading'
 import UserChecking from './RouteProtect/UserChecking'
 import CryptoWallet from './RouteProtect/CryptoWallet'
+import Blog from './pages/Blog'
+import SingleBlog from './pages/SingleBlog'
+import ScrollToTop from './components/ScrollToTop'
+import BlogWrite from './pages/BlogWrite'
 
 function App() {
 
@@ -76,7 +80,10 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Layout />,
+      element: <>
+      <ScrollToTop />
+      <Layout />
+      </>,
       children: [
         {
           path: "/",
@@ -105,6 +112,18 @@ function App() {
         {
           path: "/rebate",
           element: <UserRebate />
+        },
+        {
+          path: "/blog",
+          element: <Blog />
+        },
+        {
+          path: "/blog/:id",
+          element: <SingleBlog />
+        },
+        {
+          path: "/blog/write",
+          element: <BlogWrite />
         },
         {
           path: "/topup",

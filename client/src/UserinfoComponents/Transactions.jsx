@@ -82,7 +82,7 @@ const Transactions = () => {
           <div className="pagination-controls">
             <button onClick={handlePreviousPage} disabled={page === 1}>Previous</button>
             <span>Page {page}</span>
-            <button onClick={handleNextPage}>Next</button>
+            <button onClick={handleNextPage} disabled={transaction.length < 10}>Next</button>
           </div>
         </div>
         </div>

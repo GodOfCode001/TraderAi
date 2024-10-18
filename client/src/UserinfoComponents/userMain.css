@@ -109,6 +109,8 @@
     color: var(--white);
     cursor: pointer;
     border: none;
+    text-align: center;
+    align-content: center;
 }
 
 .usermain-container .usermain-blog {

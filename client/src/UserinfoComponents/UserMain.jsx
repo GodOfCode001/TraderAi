@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './userMain.css'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const UserMain = ({ isOpen }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { backend } = useContext(AuthContext)
+  const [wallet, setWallet] = useState()
+  const [isLoad, setIsLoad] = useState(false)
 
-  const selection = () => {
-    navigate('/topup')
-  }
-  const withdraw = () => {
-    navigate('/withdraw')
-  }
+  useEffect(() => {
+    setIsLoad(true)
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${backend}/api/user-wallet/get-main-wallet`, {
+          withCredentials: true
+        })
+        setWallet(res.data[0])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    setIsLoad(false)
+    fetchData()
+  }, [])
 
   return (
     <div className={`usermain ${isOpen ? '' : 'open'}`}>
@@ -35,13 +48,13 @@ const UserMain = ({ isOpen }) => {
         <div className="balance">
           <div className="left">
             <div className="balance-name">{t("balance-name")}</div>
-            <div className="balance-info">2.2 usdt</div>
-            <div className="thb">62.8 {t("thb")} </div>
+            <div className="balance-info"> {isLoad ? <div className="loader"></div> : <p> {wallet?.wallet_main_wallet} USDT </p> } </div>
+            <div className="thb"> {isLoad ? <div className="loader"></div> : <p> {(wallet?.wallet_main_wallet / wallet?.currency_rate).toFixed(2)} {t("thb")} </p> }  </div>
           </div>
 
           <div className="right">
-            <button className="deposit-btn" onClick={selection}>{t("deposit")}</button>
-            <button className="deposit-btn" onClick={withdraw}>{t("withdraw")}</button>
+            <Link className="deposit-btn link" to="/topup"> {t("deposit")}  </Link>
+            <Link className="deposit-btn link" to="/withdraw"> {t("withdraw")} </Link>
           </div>
         </div>
 

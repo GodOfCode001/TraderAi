@@ -26,6 +26,9 @@ import userWalletRoutes from './Routes/userWallet.js'
 import currencyRoutes from './Routes/currency.js'
 import transactionHistoryRoutes from './Routes/transactionHistory.js'
 import rebateRoutes from './Routes/rebate.js'
+import blogRoutes from './Routes/blog.js'
+import blogCategoryRoutes from './Routes/blogCategory.js'
+import uploadRoutes from './Routes/uploadImage.js'
 import { db } from './db.js'
 import axios from 'axios'
 import { coin } from './schedule/coin.js'
@@ -47,9 +50,6 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Authorization'], // Specify allowed header(s)
     credentials: true
   };
-
-const apiKey = process.env.W_API_KEY  
-const apiSecret = process.env.W_API_SECRET
 
 const app = express()
 app.use(express.json())
@@ -74,6 +74,9 @@ app.use('/api/user-wallet', userWalletRoutes)
 app.use('/api/currency', currencyRoutes)
 app.use('/api/transaction-history', transactionHistoryRoutes)
 app.use('/api/rebate', rebateRoutes)
+app.use('/api/blog', blogRoutes)
+app.use('/api/blog-category', blogCategoryRoutes)
+app.use('/api/upload-image', uploadRoutes)
 
 const setCoin = coin();
 const queryWallet = botWalletQuery();
@@ -84,63 +87,6 @@ const createSubWallet = createSubAddress()
 const deleteOldBankTransactions = deleteOldBankTrans()
 const updatingWallet = updateWallet()
 const updateQuotaWallet = updateQuota()
-
-// const queryDatabase = () => {
-//     const query = `
-//     WITH RECURSIVE recursive_commission AS (
-//         SELECT 
-//             r.referrerID, 
-//             cc.Level1Commission, 
-//             cc.Level2Commission, 
-//             cc.Level3Commission, 
-//             1 AS level
-//         FROM 
-//             referrals r  -- ตรวจสอบว่าชื่อ referrals ถูกต้อง
-//         JOIN 
-//             partners p ON r.referrerID = p.PartnerID  -- ตรวจสอบว่า partners ถูกต้อง
-//         JOIN 
-//             commissionclasses cc ON p.Class = cc.class  -- ตรวจสอบว่า CommissionClasses ถูกต้อง
-//         WHERE 
-//             r.referredID = 27
-        
-//         UNION ALL
-        
-//         SELECT 
-//             r.referrerID, 
-//             cc.Level1Commission, 
-//             cc.Level2Commission, 
-//             cc.Level3Commission, 
-//             rc.level + 1 AS level
-//         FROM 
-//             referrals r
-//         JOIN 
-//             partners p ON r.referrerID = p.PartnerID
-//         JOIN 
-//             commissionclasses cc ON p.Class = cc.class
-//         JOIN 
-//             recursive_commission rc ON rc.referrerID = r.referredID
-//         WHERE 
-//             rc.level < 3
-//     )
-//     SELECT 
-//         * 
-//     FROM 
-//         recursive_commission 
-//     ORDER BY 
-//         level;`;
-
-//     db.query(query, (err, data) => {
-//         if (err) {
-//             console.log('Error:', err.sqlMessage);
-//             return;
-//         }
-//         console.log(data);
-//     });
-// };
-
-// queryDatabase();
-
-// 
 
 const server = http.createServer(app);
 

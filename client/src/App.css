@@ -21,6 +21,7 @@
   --gold: linear-gradient(to bottom, #ffd700, #ffcc00, #ffa500, #ff8c00);
   --platinum: linear-gradient(to bottom, #e5e4e2, #d5d4d2, #bbbab9, #9e9c9a);
   --diamond: linear-gradient(to bottom, #b9f2ff, #a3e4f1, #8fd6e3, #7ac8d5);
+  --midnight-blue: linear-gradient(to bottom, #2c3e50, #34495e, #5d6d7e);
 }
 
 * {
@@ -32,7 +33,7 @@
 
 .app {
   position: relative;
-  /* background: url('assets/background/bg1.png');
+  /* background: url('/assets/background/bg1.png');
   background-position: center; 
   background-repeat: no-repeat; 
   background-size: cover;  */
@@ -44,6 +45,7 @@
   justify-content: space-between;
   height: 100vh; */
   position: relative;
+  /* justify-content: space-between; */
 }
 
 .app .container .footer {
@@ -70,7 +72,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 3px solid rgb(255,255,255,.2);
+  border: 3px solid rgba(0, 0, 0, 0.2);
   border-top-color: transparent;
   animation: rot1 1.2s linear infinite;
 }

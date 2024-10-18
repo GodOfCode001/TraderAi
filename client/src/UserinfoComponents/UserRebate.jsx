@@ -129,7 +129,7 @@ const UserRebate = () => {
               <p style={{textTransform: "uppercase"}}> # <span className='rank-name' style={{background: `var(--${currentUser?.users_class})`, color: "transparent", backgroundClip: "text", textTransform: 'uppercase', fontWeight: "bold"}}>{currentUser?.users_class ? currentUser.users_class : null} </span> </p>
             </div>
 
-            <div className="bototm-box">
+            <div className="bototm-box"> 
             <p>My basic rebate rate</p>
             <p># <span className='user-get'>{rebate.PartnerSharePercentage}</span> : <span>{rebate.CompanySharePercentage}</span> </p>
             </div>

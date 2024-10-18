@@ -50,7 +50,7 @@
   font-size: 1rem;
 }
 
-.menu-list ul li {
+.menu-list ul .link {
   cursor: pointer;
   /* border: 1px solid red; */
   width: 80px;
@@ -62,11 +62,11 @@
   transition: 0.1s all ease-in;
 }
 
-.menu-list ul li:nth-child(4) {
+.menu-list ul li {
   position: relative;
 }
 
-.menu-list ul li:hover {
+.menu-list ul .link:hover {
   background-color: var(--box-darkmode);
   color: var(--white);
 }

@@ -32,10 +32,6 @@ const Navbar = () => {
       navigate('/about');
     }
 
-    const userinfo = () => {
-      navigate('/userinfo')
-    }
-
   return (
     <div className="navbar">
       <div className="navbar-container">
@@ -50,10 +46,10 @@ const Navbar = () => {
         <div className="menu">
           <div className="menu-list">
             <ul>
-              <li onClick={pricing}> <Link to="/rebate" className="link"> {t("pricing")} </Link> </li>
-              <li onClick={about}> <Link to="/about" className="link"> {t("about")} </Link> </li>
-              <li> <Link to="/" className="link"> {t("blog")} </Link> </li>
-              <li className='change-language' onClick={dropdown}>
+              <li> <Link to="/rebate" className="link"> {t("pricing")} </Link> </li>
+              <li> <Link to="/about" className="link"> {t("about")} </Link> </li>
+              <li> <Link to="/blog?category=all&page=1" className="link"> {t("blog")} </Link> </li>
+              <li className='change-language link' onClick={dropdown}>
                {t("change")}
                 <div className={`lng-dropdown ${dropdownVisible ? 'visible' : ''}`}>
                   <div className="buttons">
