@@ -703,7 +703,7 @@ export const queryBankTransactions = (req, res) => {
         return res.status(401).json("NOTOK")
     }
 
-    jwt.verify(token, process.env.TOKEN_KEY, (err, data) => {
+    jwt.verify(token, process.env.TOKEN_KEY,async (err, data) => {
         if (err) {
             return res.status(403).json("Token error")
         }
@@ -712,6 +712,24 @@ export const queryBankTransactions = (req, res) => {
 
         const queryTransaction = `SELECT * FROM all_transactions WHERE AT_maker = ? AND AT_transaction_type = "bank_withdraw" ORDER BY AT_date_time DESC`
 
+        // const connection = await db.getConnection();
+
+        // try {
+        //     await connection.beginTransaction();
+
+        //     const [transactions] = await connection.query(queryTransaction, [userId])
+
+        //     await connection.commit();
+
+        //     return res.status(200).json(transactions)
+
+        // } catch (error) {
+        //     // await connection.rollback()
+        //     console.error("error during queryBankTransactions:", error)
+        //     return res.status(500).json("internal error")
+        // } finally {
+        //     // connection.release(); 
+        // }
         db.beginTransaction(err => {
             if (err) {
                 console.log("error while begin transaction:", err)
@@ -734,8 +752,53 @@ export const queryBankTransactions = (req, res) => {
                 })
             })
         })
+
     })
 }
+
+// export const queryBankTransactions = async (req, res) => {
+//     const token = req.cookies.access_token;
+
+//     if (!token) {
+//         return res.status(401).json("NOTOK");
+//     }
+
+//     try {
+//         // ตรวจสอบ JWT token
+//         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+//         const userId = decoded.id;
+
+//         const queryTransaction = `
+//             SELECT * FROM all_transactions 
+//             WHERE AT_maker = ? 
+//               AND AT_transaction_type = "bank_withdraw" 
+//             ORDER BY AT_date_time DESC
+//         `;
+
+//         // เริ่มการเชื่อมต่อและการ Transaction
+//         const connection = await db.getConnection();
+//         try {
+//             await connection.beginTransaction();
+
+//             const [transactions] = await connection.query(queryTransaction, [userId]);
+
+//             // คอมมิต Transaction เมื่อเสร็จสิ้น
+//             await connection.commit();
+//             return res.status(200).json(transactions);
+
+//         } catch (error) {
+//             await connection.rollback(); // ยกเลิก Transaction หากมีข้อผิดพลาด
+//             console.error("Error during queryBankTransactions:", error);
+//             return res.status(500).json("Internal Server Error");
+//         } finally {
+//             connection.release(); // ปิดการเชื่อมต่อ
+//         }
+
+//     } catch (error) {
+//         console.error("Token error or verification error:", error);
+//         return res.status(403).json("Token error");
+//     }
+// };
 
 export const getCryptoWallet = (req, res) => {
     const token = req.cookies.access_token

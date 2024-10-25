@@ -30,6 +30,7 @@
     background-color: var(--yellow);
     height: 40px;
     width: 126px;
+    
 }
 
 .admin-user-table-container .MuiTableRow-root {
@@ -37,6 +38,7 @@
     padding: 0px 20px;
     overflow: hidden;
     /* text-align: center; */
+    
 }
 
 .admin-user-table-container .MuiTableCell-root{

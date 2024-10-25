@@ -29,6 +29,7 @@ import rebateRoutes from './Routes/rebate.js'
 import blogRoutes from './Routes/blog.js'
 import blogCategoryRoutes from './Routes/blogCategory.js'
 import uploadRoutes from './Routes/uploadImage.js'
+import adminRoutes from './Routes/adminRoutes.js'
 import { db } from './db.js'
 import axios from 'axios'
 import { coin } from './schedule/coin.js'
@@ -77,16 +78,20 @@ app.use('/api/rebate', rebateRoutes)
 app.use('/api/blog', blogRoutes)
 app.use('/api/blog-category', blogCategoryRoutes)
 app.use('/api/upload-image', uploadRoutes)
+app.use('/api/admin', adminRoutes)
 
-const setCoin = coin();
-const queryWallet = botWalletQuery();
-const statement = queryStatement();
-const transactions = getERC20Transactions();
-const deleteOldTransaction = deleteOldTransactions()
-const createSubWallet = createSubAddress()
-const deleteOldBankTransactions = deleteOldBankTrans()
-const updatingWallet = updateWallet()
-const updateQuotaWallet = updateQuota()
+setTimeout(() => {
+    const setCoin = coin();
+    const queryWallet = botWalletQuery();
+    const statement = queryStatement();
+    const transactions = getERC20Transactions();
+    const deleteOldTransaction = deleteOldTransactions()
+    const createSubWallet = createSubAddress()
+    const deleteOldBankTransactions = deleteOldBankTrans()
+    const updatingWallet = updateWallet()
+    const updateQuotaWallet = updateQuota()
+}, 3000);
+
 
 const server = http.createServer(app);
 
